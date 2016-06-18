@@ -1,5 +1,5 @@
 " -----------------------------------------------------
-" Install plugins using BASH (not CMD prompt)
+" Auto install plugins (on Windows, also use bash)
 " -----------------------------------------------------
 
 " Auto download plugin installer if not there
@@ -23,7 +23,14 @@ endif
 
 call plug#begin(b:rtplocation . '/plugged')
 
-" FEATURES
+" SPECIALIZED LANGUAGE SUPPORT
+" ----------
+" HASKELL
+Plug 'scrooloose/syntastic'
+Plug 'bitc/vim-hdevtools' " Need separate install
+" Also use --hasktags--
+
+" GENERIC FEATURES
 " ----------
 " Show folder
 Plug 'scrooloose/nerdtree'
@@ -37,6 +44,8 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'bling/vim-airline'
 " Fuzzy search
 Plug 'ctrlpvim/ctrlp.vim'
+" Better completion than default <C-P>
+Plug 'Shougo/neocomplete.vim'
 
 " EXTRA SYNTAX
 " ----------
@@ -56,28 +65,45 @@ call plug#end()
 " DEFAULT COLORS
 " ----------
 if has("gui_running")
-  colorscheme solarized
-  set guifont=Lucida_Console:h11
+  colorscheme gruvbox
+  set guifont=Courier\ 10\ Pitch\ 12
+  "set guifont=Lucida_Console:h11
 endif
 
+" Prefix key for many commands
+let mapleader = ','
+
+" Manual syntax checking
+nnoremap <F1> :SyntasticCheck<CR>
+nnoremap <Leader><F1> :SyntasticReset<CR>
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+" Get type of expression in Haskell
+au FileType haskell nnoremap <buffer> <F2> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <Leader><F2> :HdevtoolsClear<CR>
+
 set encoding=utf-8   
+let g:neocomplete#enable_at_startup = 1
+
 " Remove directory from buffer line names
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:ctrlp_working_path_mode = 'c'
+
+" Fuzzy file search, try to find project directory
+let g:ctrlp_working_path_mode = 'ar'
 let g:ctrlp_map = '<C-down>'
-map <F2> :NERDTree<CR>
+
 " Auto react to file type changes
 filetype plugin indent on
-" Show tabs, switch between
+" Show tabs, switch between (Manual :bd to close)
 let g:airline#extensions#tabline#enabled = 1
-map <C-right> :bn<CR>
-map <C-left> :bp<CR>
+nnoremap <C-right> :bn<CR>
+nnoremap <C-left> :bp<CR>
 " Enable syntax colors
 syntax enable
 " Jump to a letter
 map t <Plug>(easymotion-s)
 " Unhighlight the search text
-map <C-h> :noh<CR>
+nnoremap <C-h> :noh<CR>
 " Relative line numbers for easy jump
 set rnu nu
 " New files don't need to be saved to browse another file...
