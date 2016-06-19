@@ -76,8 +76,11 @@ let mapleader = ','
 " Manual syntax checking
 nnoremap <F1> :SyntasticCheck<CR>
 nnoremap <Leader><F1> :SyntasticReset<CR>
+" Pop up the error list
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+" Passive mode, disable check on save/open/etc
+let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
 " Get type of expression in Haskell
 au FileType haskell nnoremap <buffer> <F2> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <Leader><F2> :HdevtoolsClear<CR>
