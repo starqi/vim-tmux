@@ -65,7 +65,7 @@ call plug#end()
 " DEFAULT COLORS
 " ----------
 if has("gui_running")
-  colorscheme gruvbox
+  colorscheme SlateDark
   set guifont=Courier\ 10\ Pitch\ 12
   "set guifont=Lucida_Console:h11
 endif
@@ -87,6 +87,8 @@ au FileType haskell nnoremap <buffer> <Leader><F2> :HdevtoolsClear<CR>
 
 set encoding=utf-8   
 let g:neocomplete#enable_at_startup = 1
+" Don't pop up previews
+set completeopt-=preview
 
 " Remove directory from buffer line names
 let g:airline#extensions#tabline#fnamemod = ':t'
