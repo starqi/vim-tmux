@@ -21,7 +21,7 @@ endif
 " List of plugins
 call plug#begin(b:rtplocation . '/plugged')
 Plug 'scrooloose/syntastic' " Syntax checking
-Plug 'Shougo/deoplete.nvim' " Completion
+Plug 'Shougo/deoplete.nvim' " Basic completion
 Plug 'bitc/vim-hdevtools' " For Haskell, also need separate install, also use hasktags
 Plug 'scrooloose/nerdtree' " Folder trees
 Plug 'Lokaltog/vim-easymotion' " Jump to letters
@@ -34,9 +34,9 @@ Plug 'neovimhaskell/haskell-vim' " Syntax
 call plug#end()
 
 " Settings
-set clipboard+=unnamed
+set clipboard+=unnamed " Copy system clipboard easily
 set encoding=utf-8   
-colorscheme elflord
+colorscheme elflord " Good default terminal color
 if has("nvim")
   " Exiting terminal insert mode
   tnoremap <Esc> <C-\><C-n>
@@ -47,7 +47,7 @@ nnoremap <F2> :SyntasticCheck<CR>
 nnoremap <Leader><F2> :SyntasticReset<CR>
 " Clear highlighting
 nnoremap <C-j> :noh<CR>
-" Pop up the error list
+" Pop up the error list when errors
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 " Disable syntax check on save/open/etc
@@ -56,17 +56,15 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 let g:deoplete#enable_at_startup = 1
-" Don't pop up previews
-set completeopt-=preview
+set completeopt-=preview " Don't pop up previews
 " Remove directory from buffer line names
 let g:airline#extensions#tabline#fnamemod = ':t'
 " Fuzzy file search, try to find project directory
 let g:ctrlp_working_path_mode = 'ar'
 let g:ctrlp_map = ''
 nnoremap <leader>p :CtrlP<CR>
-" Auto react to file type changes
-filetype plugin indent on
-" Show tabs, switch between
+filetype plugin indent on " Auto react to file type changes
+" Show tabs, keys for switching between tabs
 let g:airline#extensions#tabline#enabled = 1
 nnoremap <C-b>l :bn<CR>
 nnoremap <C-b>h :bp<CR>
