@@ -62,13 +62,15 @@ set completeopt-=preview
 let g:airline#extensions#tabline#fnamemod = ':t'
 " Fuzzy file search, try to find project directory
 let g:ctrlp_working_path_mode = 'ar'
-let g:ctrlp_map = '<C-down>'
+let g:ctrlp_map = ''
+nnoremap <leader>p :CtrlP<CR>
 " Auto react to file type changes
 filetype plugin indent on
-" Show tabs, switch between using arrow keys (Manual :bd to close)
+" Show tabs, switch between
 let g:airline#extensions#tabline#enabled = 1
-nnoremap <C-right> :bn<CR>
-nnoremap <C-left> :bp<CR>
+nnoremap <C-b>l :bn<CR>
+nnoremap <C-b>h :bp<CR>
+nnoremap <C-b>d :bd<CR>
 syntax enable " Enable syntax colors
 " Jump to a letter
 map t <Plug>(easymotion-s)
