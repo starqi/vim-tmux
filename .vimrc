@@ -34,8 +34,8 @@ Plug 'neovimhaskell/haskell-vim' " Syntax
 call plug#end()
 
 " Settings
-set clipboard+=unnamed " Copy system clipboard easily
 set encoding=utf-8   
+let g:yankring_history_file = '.my_yankring_history_file'
 colorscheme elflord " Good default terminal color
 if has("nvim")
   " Exiting terminal insert mode
@@ -46,7 +46,7 @@ let mapleader = ',' " Prefix key for many commands
 nnoremap <F2> :SyntasticCheck<CR>
 nnoremap <Leader><F2> :SyntasticReset<CR>
 " Clear highlighting
-nnoremap <C-j> :noh<CR>
+nnoremap <leader>h :noh<CR>
 " Pop up the error list when errors
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -63,12 +63,15 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:ctrlp_working_path_mode = 'ar'
 let g:ctrlp_map = ''
 nnoremap <leader>p :CtrlP<CR>
+" Change buffers, delete buffer
+nnoremap <Leader>q :bp<CR>
+nnoremap <Leader>e :bn<CR>
+" NERDTree
+nnoremap <Leader>1 :NERDTreeFocus<CR>
+nnoremap <Leader>2 :NERDTreeToggle<CR>
 filetype plugin indent on " Auto react to file type changes
 " Show tabs, keys for switching between tabs
 let g:airline#extensions#tabline#enabled = 1
-nnoremap <C-b>l :bn<CR>
-nnoremap <C-b>h :bp<CR>
-nnoremap <C-b>d :bd<CR>
 syntax enable " Enable syntax colors
 " Jump to a letter
 map t <Plug>(easymotion-s)
@@ -84,3 +87,5 @@ set laststatus=2 " Display toolbar
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab shiftround
 set backspace=indent,eol,start " Stop preventing backspace in certain places
 au FileType * setlocal fo-=c fo-=r fo-=o " Stop comment formatting
+" Temporary Eiffel formatting
+au FileType eiffel setlocal tabstop=4 softtabstop=4 shiftwidth=4 syntax=off
