@@ -21,7 +21,11 @@ endif
 " List of plugins
 call plug#begin(b:rtplocation . '/plugged')
 Plug 'scrooloose/syntastic' " Syntax checking
-Plug 'Shougo/deoplete.nvim' " Basic completion
+if has("nvim") " Basic completion
+  Plug 'Shougo/deoplete.nvim' 
+else
+  Plug 'Shougo/neocomplete.vim' 
+endif
 Plug 'bitc/vim-hdevtools' " For Haskell, also need separate install, also use hasktags
 Plug 'scrooloose/nerdtree' " Folder trees
 Plug 'Lokaltog/vim-easymotion' " Jump to letters
@@ -34,19 +38,19 @@ Plug 'neovimhaskell/haskell-vim' " Syntax
 call plug#end()
 
 " Settings
+let mapleader = ',' " Prefix key for many commands
 set encoding=utf-8   
 let g:yankring_history_file = '.my_yankring_history_file'
-colorscheme elflord " Good default terminal color
+colorscheme default " Good default terminal color
 if has("nvim")
   " Exiting terminal insert mode
   tnoremap <Esc> <C-\><C-n>
 endif
-let mapleader = ',' " Prefix key for many commands
 " Manual syntax checking
 nnoremap <F2> :SyntasticCheck<CR>
 nnoremap <Leader><F2> :SyntasticReset<CR>
 " Clear highlighting
-nnoremap <leader>h :noh<CR>
+nnoremap <Leader>g :noh<CR>
 " Pop up the error list when errors
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -62,13 +66,13 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Fuzzy file search, try to find project directory
 let g:ctrlp_working_path_mode = 'ar'
 let g:ctrlp_map = ''
-nnoremap <leader>p :CtrlP<CR>
+nnoremap <leader>0 :CtrlP<CR>
 " Change buffers, delete buffer
 nnoremap <Leader>q :bp<CR>
 nnoremap <Leader>e :bn<CR>
+nnoremap <Leader>c :bp<CR>:bd#<CR>
 " NERDTree
 nnoremap <Leader>1 :NERDTreeFocus<CR>
-nnoremap <Leader>2 :NERDTreeToggle<CR>
 filetype plugin indent on " Auto react to file type changes
 " Show tabs, keys for switching between tabs
 let g:airline#extensions#tabline#enabled = 1
