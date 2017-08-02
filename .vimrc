@@ -96,7 +96,8 @@ filetype plugin indent on " Auto react to file type changes
 " Show tabs, keys for switching between tabs
 let g:airline#extensions#tabline#enabled = 1
 
-syntax enable " Enable syntax colors
+" Enable syntax colors
+syntax enable 
 
 " Jump to a letter
 map t <Plug>(easymotion-s)
@@ -111,7 +112,9 @@ set hlsearch " Highlight search results
 set laststatus=2 " Display toolbar
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab shiftround " Every tab everywhere is 2 spaces
 set backspace=indent,eol,start " Stop preventing backspace in certain places
+set foldmethod=indent foldlevel=99 " Easily collapse with z[OocR], don't collapse on start
 au FileType * setlocal fo-=c fo-=r fo-=o " Stop comment formatting
 
 " Temporary Eiffel formatting
 au FileType eiffel setlocal tabstop=4 softtabstop=4 shiftwidth=4 syntax=off
+
