@@ -32,7 +32,7 @@ else
 endif
 
 Plug 'scrooloose/syntastic' 
-Plug 'bitc/vim-hdevtools'
+Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'scrooloose/nerdtree' "Folder trees
 Plug 'Lokaltog/vim-easymotion' "Jump to letters
 Plug 'msanders/snipmate.vim' "Snippets for all languages
@@ -77,8 +77,7 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 "JSX, need eslint and local config file
 let g:syntastic_javascript_checkers = ['eslint']
 
-"Haskell, need hdevtools & hasktags
-let g:syntastic_haskell_checkers = []
+"Haskell, need hdevtools & hasktags, don't add to g:syntastic_haskell_checkers
 "Get type of expression in Haskell
 au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
