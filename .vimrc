@@ -84,6 +84,7 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
 "Simple autocompletion
 let g:deoplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 
 "Remove directory from buffer line names
