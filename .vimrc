@@ -31,6 +31,8 @@ else
   Plug 'Shougo/neocomplete.vim' 
 endif
 
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'leafgarland/typescript-vim'
 Plug 'scrooloose/syntastic' 
 Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'scrooloose/nerdtree' "Folder trees
@@ -52,7 +54,7 @@ call plug#end()
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme peachpuff
+colorscheme OceanicNext
 
 let g:yankring_history_file = '.my_yankring_history_file'
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
