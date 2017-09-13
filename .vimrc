@@ -32,7 +32,6 @@ else
 endif
 
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'leafgarland/typescript-vim'
 Plug 'scrooloose/syntastic' 
 Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'scrooloose/nerdtree' "Folder trees
@@ -54,7 +53,7 @@ call plug#end()
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme OceanicNext
+colorscheme happy_hacking
 
 let g:yankring_history_file = '.my_yankring_history_file'
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
@@ -108,6 +107,11 @@ nnoremap <Leader>o :BufOnly<CR>
 nnoremap <Leader>1 :NERDTreeFocus<CR>
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
+map <C-H> <C-W>h
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+map <C-L> <C-W>l
+
 "Show tabs, keys for switching between tabs
 let g:airline#extensions#tabline#enabled = 1
 
@@ -124,7 +128,7 @@ set nowrap "No line wrap
 set shortmess+=I guioptions-=m guioptions-=T "No start up screen, or menus
 set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab shiftround "Every tab everywhere is 2 spaces
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
 set foldmethod=indent foldlevel=99 "Easily collapse with z[OocR], don't collapse on start
 au FileType * setlocal fo-=c fo-=r fo-=o "Stop comment formatting
