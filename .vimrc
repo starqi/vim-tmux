@@ -104,7 +104,8 @@ nnoremap <Leader>c :bp<CR>:bd#<CR>
 nnoremap <Leader>o :BufOnly<CR>
 
 "NERDTree
-nnoremap <Leader>1 :NERDTreeFocus<CR>
+"Don't use NERDTreeFocus, otherwise, it won't change directory to working file
+nnoremap <Leader>1 :NERDTree<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
 map <C-H> <C-W>h
