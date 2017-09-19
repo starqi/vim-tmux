@@ -63,6 +63,7 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 endif
 
+command CopyPath redir @+ | echo expand('%:p') | redir END
 "Clear highlighting
 nnoremap <Leader>g :noh<CR>
 
@@ -104,8 +105,7 @@ nnoremap <Leader>c :bp<CR>:bd#<CR>
 nnoremap <Leader>o :BufOnly<CR>
 
 "NERDTree
-"Don't use NERDTreeFocus, otherwise, it won't change directory to working file
-nnoremap <Leader>1 :NERDTree<CR> 
+nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
 map <C-H> <C-W>h
