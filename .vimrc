@@ -43,7 +43,6 @@ Plug 'ctrlpvim/ctrlp.vim' "Fuzzy search
 Plug 'pangloss/vim-javascript' "Syntax
 Plug 'mxw/vim-jsx' "Syntax
 Plug 'neovimhaskell/haskell-vim' "Syntax
-Plug 'vim-scripts/BufOnly.vim' "Close all but one buffer
 
 call plug#end()
 
@@ -89,20 +88,24 @@ let g:deoplete#enable_at_startup = 1
 let g:neocomplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 
-"Remove directory from buffer line names
+" Tab workflow
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_splits = 0
 
 "Fuzzy file search, try to find project directory
 let g:ctrlp_working_path_mode = 'ar'
 let g:ctrlp_map = ''
 nnoremap <leader>0 :CtrlP<CR>
 
-"Change buffers, delete buffer
-nnoremap <Leader>q :bp<CR>
-nnoremap <Leader>e :bn<CR>
-"Doesn't close last buffer
-nnoremap <Leader>c :bp<CR>:bd#<CR> 
-nnoremap <Leader>o :BufOnly<CR>
+nnoremap <Leader>q :tabp<CR>
+nnoremap <Leader>e :tabn<CR>
+nnoremap <Leader>c :tabc<CR> 
+nnoremap <Leader>o :tabnew<CR>
 
 "NERDTree
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
@@ -112,9 +115,6 @@ map <C-H> <C-W>h
 map <C-J> <C-W>j
 map <C-K> <C-W>k
 map <C-L> <C-W>l
-
-"Show tabs, keys for switching between tabs
-let g:airline#extensions#tabline#enabled = 1
 
 "Jump to a letter
 map t <Plug>(easymotion-s)
