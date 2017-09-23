@@ -43,6 +43,7 @@ Plug 'ctrlpvim/ctrlp.vim' "Fuzzy search
 Plug 'pangloss/vim-javascript' "Syntax
 Plug 'mxw/vim-jsx' "Syntax
 Plug 'neovimhaskell/haskell-vim' "Syntax
+Plug 'kshenoy/vim-signature' "Mark management
 
 call plug#end()
 
@@ -74,10 +75,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 "Disable syntax check on save/open/etc
 let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
-
 "JSX, need eslint and local config file
 let g:syntastic_javascript_checkers = ['eslint']
-
 "Haskell, need hdevtools & hasktags, don't add to g:syntastic_haskell_checkers
 "Get type of expression in Haskell
 au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
