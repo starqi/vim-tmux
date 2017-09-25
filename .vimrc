@@ -64,6 +64,7 @@ if has("nvim")
 endif
 
 command CopyPath redir @+ | echo expand('%:p') | redir END
+
 "Clear highlighting
 nnoremap <Leader>g :noh<CR>
 
