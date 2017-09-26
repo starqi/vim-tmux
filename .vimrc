@@ -40,10 +40,12 @@ Plug 'msanders/snipmate.vim' "Snippets for all languages
 Plug 'vim-scripts/YankRing.vim' "Loop through copy paste history
 Plug 'bling/vim-airline' "Pretty status bar
 Plug 'ctrlpvim/ctrlp.vim' "Fuzzy search
-Plug 'pangloss/vim-javascript' "Syntax
-Plug 'mxw/vim-jsx' "Syntax
-Plug 'neovimhaskell/haskell-vim' "Syntax
 Plug 'kshenoy/vim-signature' "Mark management
+
+"Syntax
+Plug 'pangloss/vim-javascript' 
+Plug 'mxw/vim-jsx' 
+Plug 'neovimhaskell/haskell-vim' 
 
 call plug#end()
 
@@ -97,11 +99,12 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Fuzzy file search, try to find project directory
-let g:ctrlp_working_path_mode = 'ar'
+"Fuzzy file and buffer search, try to find project directory (has .svn/.git)
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = ''
 nnoremap <leader>0 :CtrlP<CR>
 
+nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
 nnoremap <Leader>q :tabp<CR>
 nnoremap <Leader>e :tabn<CR>
 nnoremap <Leader>c :tabc<CR> 
@@ -111,13 +114,14 @@ nnoremap <Leader>o :tabnew<CR>
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
-map <C-H> <C-W>h
-map <C-J> <C-W>j
-map <C-K> <C-W>k
-map <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-C> <C-W>c
 
 "Jump to a letter
-map t <Plug>(easymotion-s)
+nnoremap t <Plug>(easymotion-s)
 
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
