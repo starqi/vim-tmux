@@ -55,7 +55,7 @@ call plug#end()
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme happy_hacking
+colorscheme pyte
 
 let g:yankring_history_file = '.my_yankring_history_file'
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
@@ -121,7 +121,7 @@ nnoremap <C-L> <C-W>l
 nnoremap <C-C> <C-W>c
 
 "Jump to a letter
-nnoremap t <Plug>(easymotion-s)
+map t <Plug>(easymotion-s)
 
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
