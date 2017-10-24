@@ -25,12 +25,7 @@ endif
 
 call plug#begin(b:rtplocation . '/plugged')
 
-if has("nvim") "Basic completion
-  Plug 'Shougo/deoplete.nvim' 
-else
-  Plug 'Shougo/neocomplete.vim' 
-endif
-
+Plug 'Shougo/deoplete.nvim' 
 Plug 'tpope/vim-surround'
 Plug 'leafgarland/typescript-vim'
 Plug 'rafi/awesome-vim-colorschemes'
@@ -58,8 +53,9 @@ call plug#end()
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme focuspoint
+colorscheme seoul256
 
+set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
 
@@ -90,7 +86,6 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
 "Simple autocompletion
 let g:deoplete#enable_at_startup = 1
-let g:neocomplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 
 " Tab workflow
