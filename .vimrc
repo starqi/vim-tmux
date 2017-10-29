@@ -1,5 +1,6 @@
 
-"[ Vim/Neovim, any OS ]
+" Vim/Neovim, any OS
+" Try to be minimal
 
 "--------------------------------------------------
 "Auto install plugins, need bash
@@ -20,27 +21,31 @@ if !filereadable(b:pluglocation)
 endif
 
 "--------------------------------------------------
-"List of plugins
+"List of plugins, need git
 "--------------------------------------------------
 
 call plug#begin(b:rtplocation . '/plugged')
 
-Plug 'Shougo/deoplete.nvim' 
-Plug 'tpope/vim-surround'
-Plug 'leafgarland/typescript-vim'
+Plug 'Shougo/deoplete.nvim' "Autocompletion
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'scrooloose/syntastic' 
-Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
+Plug 'scrooloose/syntastic' "Lint
 Plug 'scrooloose/nerdtree' "Folder trees
 Plug 'Lokaltog/vim-easymotion' "Jump to letters
-Plug 'msanders/snipmate.vim' "Snippets for all languages
 Plug 'vim-scripts/YankRing.vim' "Loop through copy paste history
 Plug 'bling/vim-airline' "Pretty status bar
-Plug 'ctrlpvim/ctrlp.vim' "Fuzzy search
+Plug 'vim-airline/vim-airline-themes'
 Plug 'kshenoy/vim-signature' "Mark management
-Plug 'vim-scripts/BufOnly.vim'
+Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } "Fuzzy search
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive' "Git helper
+Plug 'majutsushi/tagbar' "Ctags single file preview
 
+"Specialized
+Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
+Plug 'mhartington/nvim-typescript' "TSServer integration
 "Syntax
+Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript' 
 Plug 'mxw/vim-jsx' 
 Plug 'neovimhaskell/haskell-vim' 
@@ -48,26 +53,48 @@ Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
 "--------------------------------------------------
-"Settings
+"Specialized
+"--------------------------------------------------
+
+"** JSX **, need eslint and local config file
+let g:syntastic_javascript_checkers = ['eslint']
+let g:jsx_ext_required = 0 "JSX highlighting for JS files
+
+"** Haskell **, need hdevtools & hasktags, don't add to g:syntastic_haskell_checkers
+"Get type of expression
+au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
+
+"** Typescript **, need tsserver
+"...TODO - nvim-typescript settings
+"Also tags for tagbar support, need ctags w/ https://github.com/jb55/typescript-ctags 
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
+
+"** VimL ** TODO - Deoplete
+
+"--------------------------------------------------
+"General
 "--------------------------------------------------
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme seoul256
-
+colorscheme gruvbox
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
-let g:jsx_ext_required = 0 "JSX highlighting for JS files
 
-"Exiting terminal insert mode
-if has("nvim")
-  tnoremap <Esc> <C-\><C-n>
-endif
-
-command CopyPath redir @+ | echo expand('%:p') | redir END
-
-"Clear highlighting
-nnoremap <Leader>g :noh<CR>
+nnoremap <F4> :TagbarToggle<CR>
 
 "Manual syntax checking
 nnoremap <F2> :SyntasticCheck<CR>
@@ -77,16 +104,20 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 "Disable syntax check on save/open/etc
 let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
-"JSX, need eslint and local config file
-let g:syntastic_javascript_checkers = ['eslint']
-"Haskell, need hdevtools & hasktags, don't add to g:syntastic_haskell_checkers
-"Get type of expression in Haskell
-au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
-"Simple autocompletion
+"Text autocompletion
 let g:deoplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
+
+command CopyPath redir @+ | echo expand('%:p') | redir END
+
+"Exiting terminal insert mode with ESC
+if has("nvim")
+  tnoremap <Esc> <C-\><C-n>
+endif
+
+"Clear highlighting
+nnoremap <Leader>g :noh<CR>
 
 " Tab workflow
 let g:airline#extensions#tabline#enabled = 1
@@ -97,21 +128,24 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Fuzzy file and buffer search, try to find project directory (has .svn/.git)
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_map = ''
-nnoremap <leader>0 :CtrlP<CR>
+" Fuzzy find git repo files
+nnoremap <leader>0 :GFiles<CR>
+nnoremap <leader>9 :Buffers<CR>
 
+"Jump to tab _
 nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
+"Move tab after _
+nnoremap <expr> <Leader>s ":tabm " . nr2char(getchar()) . "<CR>"
 nnoremap <Leader>q :tabp<CR>
 nnoremap <Leader>e :tabn<CR>
 nnoremap <Leader>c :tabc<CR> 
 nnoremap <Leader>o :tabnew<CR>
 
-"NERDTree
+"Browse directory
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
+"Fast move beetween windows
 nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
@@ -133,5 +167,5 @@ set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
-set foldmethod=indent foldlevel=99 "Easily collapse with z[OocR], don't collapse on start
+set foldmethod=indent foldlevel=99 " Don't collapse on start
 au FileType * setlocal fo-=c fo-=r fo-=o "Stop comment formatting
