@@ -1,11 +1,12 @@
 
-" Vim/Neovim, any OS
+" Neovim, Windows, Linux
 " Try to be minimal
 
 "--------------------------------------------------
 "Auto install plugins, need bash
 "--------------------------------------------------
 
+"TODO - Proper Neovim directory
 if !has("unix")
   "Don't use vimfiles
   set rtp+=~/.vim
@@ -36,8 +37,11 @@ Plug 'bling/vim-airline' "Pretty status bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kshenoy/vim-signature' "Mark management
 Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } "Fuzzy search
-Plug 'junegunn/fzf.vim'
+if !has("windows")
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } "Fuzzy search
+    Plug 'junegunn/fzf.vim'
+endif
+Plug 'ctrlpvim/ctrlp.vim' "Use for buffers, MRU, fuzzy search on Windows
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
 
@@ -112,9 +116,7 @@ set completeopt-=preview "Don't pop up previews
 command CopyPath redir @+ | echo expand('%:p') | redir END
 
 "Exiting terminal insert mode with ESC
-if has("nvim")
-  tnoremap <Esc> <C-\><C-n>
-endif
+tnoremap <Esc> <C-\><C-n>
 
 "Clear highlighting
 nnoremap <Leader>g :noh<CR>
@@ -128,9 +130,13 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-" Fuzzy find git repo files
-nnoremap <leader>0 :GFiles<CR>
-nnoremap <leader>9 :Buffers<CR>
+"Fuzzy find
+if !has("windows")
+    "Git repo files
+    nnoremap <leader>- :GFiles<CR>
+    nnoremap <leader>= :Buffers<CR>
+endif
+nnoremap <leader>0 :CtrlP<CR>
 
 "Jump to tab _
 nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
