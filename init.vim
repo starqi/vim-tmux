@@ -121,7 +121,7 @@ tnoremap <Esc> <C-\><C-n>
 "Clear highlighting
 nnoremap <Leader>g :noh<CR>
 
-" Tab workflow
+"Tab workflow
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_buffers = 0
@@ -130,12 +130,17 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Fuzzy find
+"Fast fuzzy variety find
 if has("unix")
-    "Git repo files
+    "Git repo files, doesn't work with SVN
     nnoremap <leader>- :GFiles<CR>
     nnoremap <leader>= :Buffers<CR>
 endif
+
+"Slow fuzzy, try to find project directory (has .svn/.git)
+"Use on Windows, and for MRU files feature
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_map = ''
 nnoremap <leader>0 :CtrlP<CR>
 
 "Jump to tab _
