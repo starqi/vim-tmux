@@ -8,16 +8,21 @@
 
 if has("unix") 
     let b:base=expand('~/.config/nvim')
+    let b:autoload=b:base . '/autoload'
+    let b:plug=b:autoload . '/plug.vim'
 else 
-    "TODO - Check this
-    let b:base=expand('%LOCALAPPDATA%') . '/nvim'
+    let b:base=expand('$LOCALAPPDATA\nvim')
+    let b:autoload=b:base . '\autoload'
+    let b:plug=b:autoload . '\plug.vim'
 endif
 
-let b:autoload=b:base . '/autoload'
-let b:plug=b:autoload . '/plug.vim'
-
 if !filereadable(b:plug)
-    execute '!mkdir -p ' . b:autoload
+    if has("unix")
+        execute '!mkdir -p ' . b:autoload
+    else
+        "Windows mkdir, need Windows slashes
+        execute '!mkdir ' . b:autoload 
+    endif
     execute '!curl -fLo ' . b:plug . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     echo 'Type :PlugInstall, :UpdateRemotePlugins'
 endif
