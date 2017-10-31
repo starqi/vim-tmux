@@ -6,26 +6,27 @@
 "Auto install plugins, need bash
 "--------------------------------------------------
 
-"TODO - Proper Neovim directory
-if !has("unix")
-  "Don't use vimfiles
-  set rtp+=~/.vim
+if has("unix") 
+    let b:base=expand('~/.config/nvim')
+else 
+    "TODO - Check this
+    let b:base=expand('%LOCALAPPDATA%') . '/nvim'
 endif
-let b:rtplocation=expand('~/.vim')
-let b:baselocation=b:rtplocation . '/autoload'
-let b:pluglocation=b:baselocation . '/plug.vim'
-if !filereadable(b:pluglocation)
-  "--create-dirs is broken, use mkdir
-  execute '!mkdir -p ' . b:baselocation
-  execute '!curl -fLo ' . b:pluglocation . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  echo 'Type :PlugInstall!'
+
+let b:autoload=b:base . '/autoload'
+let b:plug=b:autoload . '/plug.vim'
+
+if !filereadable(b:plug)
+    execute '!mkdir -p ' . b:autoload
+    execute '!curl -fLo ' . b:plug . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echo 'Type :PlugInstall, :UpdateRemotePlugins'
 endif
 
 "--------------------------------------------------
 "List of plugins, need git
 "--------------------------------------------------
 
-call plug#begin(b:rtplocation . '/plugged')
+call plug#begin(b:base . '/plugged')
 
 Plug 'Shougo/deoplete.nvim' "Autocompletion
 Plug 'rafi/awesome-vim-colorschemes'
@@ -37,18 +38,18 @@ Plug 'bling/vim-airline' "Pretty status bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kshenoy/vim-signature' "Mark management
 Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
-if !has("windows")
+if has("unix")
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } "Fuzzy search
     Plug 'junegunn/fzf.vim'
 endif
 Plug 'ctrlpvim/ctrlp.vim' "Use for buffers, MRU, fuzzy search on Windows
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
+Plug 'shougo/neco-vim' "VimL completion
 
 "Specialized
 Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'mhartington/nvim-typescript' "TSServer integration
-"Syntax
 Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript' 
 Plug 'mxw/vim-jsx' 
@@ -70,7 +71,8 @@ au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
 "** Typescript **, need tsserver
-"...TODO - nvim-typescript settings
+au FileType typescript nnoremap <buffer> <F3> :TSType<CR>
+au FileType typescript nnoremap <buffer> <F4> :TSDef<CR>
 "Also tags for tagbar support, need ctags w/ https://github.com/jb55/typescript-ctags 
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
@@ -86,19 +88,17 @@ let g:tagbar_type_typescript = {
   \ ]
 \ }
 
-"** VimL ** TODO - Deoplete
-
 "--------------------------------------------------
 "General
 "--------------------------------------------------
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme gruvbox
+colorscheme hybrid_material
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 
-nnoremap <F4> :TagbarToggle<CR>
+nnoremap <F12> :TagbarToggle<CR>
 
 "Manual syntax checking
 nnoremap <F2> :SyntasticCheck<CR>
@@ -131,7 +131,7 @@ let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
 "Fuzzy find
-if !has("windows")
+if has("unix")
     "Git repo files
     nnoremap <leader>- :GFiles<CR>
     nnoremap <leader>= :Buffers<CR>
