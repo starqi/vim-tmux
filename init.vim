@@ -118,7 +118,7 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 let g:deoplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 
-command CopyPath redir @+ | echo expand('%:p') | redir END
+command! CopyPath redir @+ | echo expand('%:p') | redir END
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
@@ -170,6 +170,10 @@ nnoremap <C-C> <C-W>c
 
 "Jump to a letter
 map t <Plug>(easymotion-s)
+
+"TODO - Escape
+vnoremap // y/<C-R>"<CR>
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
