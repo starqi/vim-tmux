@@ -99,7 +99,8 @@ let g:tagbar_type_typescript = {
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme hybrid_material
+colorscheme gruvbox
+set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 
@@ -119,6 +120,37 @@ let g:deoplete#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 
 command! CopyPath redir @+ | echo expand('%:p') | redir END
+
+function! Term4() 
+    tabnew
+    terminal
+    normal \<esc>
+
+    vsplit
+    wincmd l
+    terminal
+    normal \<esc>
+
+    split
+    wincmd j
+    terminal
+    normal \<esc>
+
+    wincmd h
+    split
+    wincmd j
+    terminal
+    normal \<esc>
+endfunction
+command! Term4 call Term4()
+
+function! Bd4()
+    bd!
+    bd!
+    bd!
+    bd!
+endfunction
+command! Bd4 call Bd4()
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
@@ -166,12 +198,11 @@ nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
-nnoremap <C-C> <C-W>c
 
 "Jump to a letter
 map t <Plug>(easymotion-s)
 
-"TODO - Escape
+"TODO - Improve
 vnoremap // y/<C-R>"<CR>
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
