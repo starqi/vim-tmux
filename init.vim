@@ -34,6 +34,7 @@ endif
 call plug#begin(b:base . '/plugged')
 
 Plug 'Shougo/deoplete.nvim' "Autocompletion
+Plug 'Shougo/echodoc.vim'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'scrooloose/syntastic' "Lint
 Plug 'scrooloose/nerdtree' "Folder trees
@@ -78,6 +79,7 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 "** Typescript **, need tsserver
 au FileType typescript nnoremap <buffer> <F3> :TSType<CR>
 au FileType typescript nnoremap <buffer> <F4> :TSDef<CR>
+let g:nvim_typescript#signature_complete = 1
 "Also tags for tagbar support, need ctags w/ https://github.com/jb55/typescript-ctags 
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
@@ -117,7 +119,9 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 
 "Text autocompletion
 let g:deoplete#enable_at_startup = 1
+let g:echodoc#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
+set noshowmode "Replace -- INSERT --
 
 command! CopyPath redir @+ | echo expand('%:p') | redir END
 
@@ -213,7 +217,7 @@ set hidden  "New files don't need to be saved to browse another file...
 set autochdir "Current folder matches current buffer
 set autoindent "No magic BS indent, use last line's indent
 set nowrap "No line wrap
-set shortmess+=I guioptions-=m guioptions-=T "No start up screen, or menus
+set shortmess+=Ic "No intro, no completion message
 set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
