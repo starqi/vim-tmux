@@ -44,11 +44,7 @@ Plug 'bling/vim-airline' "Pretty status bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kshenoy/vim-signature' "Mark management
 Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
-if has("unix")
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } "Fuzzy search
-    Plug 'junegunn/fzf.vim'
-endif
-Plug 'ctrlpvim/ctrlp.vim' "Use for buffers, MRU, fuzzy search on Windows
+Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
 Plug 'shougo/neco-vim' "VimL completion
@@ -125,37 +121,6 @@ set noshowmode "Replace -- INSERT --
 
 command! CopyPath redir @+ | echo expand('%:p') | redir END
 
-function! Term4() 
-    tabnew
-    terminal
-    normal \<esc>
-
-    vsplit
-    wincmd l
-    terminal
-    normal \<esc>
-
-    split
-    wincmd j
-    terminal
-    normal \<esc>
-
-    wincmd h
-    split
-    wincmd j
-    terminal
-    normal \<esc>
-endfunction
-command! Term4 call Term4()
-
-function! Bd4()
-    bd!
-    bd!
-    bd!
-    bd!
-endfunction
-command! Bd4 call Bd4()
-
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
 
@@ -171,15 +136,7 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Fast fuzzy variety find
-if has("unix")
-    "Git repo files, doesn't work with SVN
-    nnoremap <leader>- :GFiles<CR>
-    nnoremap <leader>= :Buffers<CR>
-endif
-
-"Slow fuzzy, try to find project directory (has .svn/.git)
-"Use on Windows, and for MRU files feature
+"Try to find project directory (has .svn/.git)
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = ''
 nnoremap <leader>0 :CtrlP<CR>
