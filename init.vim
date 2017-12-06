@@ -50,6 +50,7 @@ Plug 'majutsushi/tagbar' "Ctags single file preview
 Plug 'shougo/neco-vim' "VimL completion
 
 "Specialized
+Plug 'vimwiki/vimwiki'
 Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'mhartington/nvim-typescript' "TSServer integration
 Plug 'leafgarland/typescript-vim'
@@ -97,7 +98,7 @@ let g:tagbar_type_typescript = {
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme gruvbox
+colorscheme termschool
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -167,6 +168,9 @@ map t <Plug>(easymotion-s)
 vnoremap // y/<C-R>"<CR>
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
+"Vim Wiki
+let g:vimwiki_folding = 'expr'
+
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
 set rnu nu "Relative line numbers for easy jump
@@ -179,5 +183,5 @@ set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
-set foldmethod=indent foldlevel=99 " Don't collapse on start
+set foldmethod=syntax foldlevel=99 " Don't collapse on start
 au FileType * setlocal fo-=c fo-=r fo-=o "Stop comment formatting
