@@ -33,6 +33,8 @@ endif
 
 call plug#begin(b:base . '/plugged')
 
+Plug 'xolox/vim-misc' "This guy's personal libraries
+Plug 'xolox/vim-session' "Session management
 Plug 'Shougo/deoplete.nvim' "Autocompletion
 Plug 'Shougo/echodoc.vim'
 Plug 'rafi/awesome-vim-colorschemes'
@@ -102,6 +104,9 @@ colorscheme alduin
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
+
+"Session management
+let g:session_autosave = 'yes' "Saves to default.vim inside wherever ~/???/sessions is
 
 nnoremap <F12> :TagbarToggle<CR>
 
