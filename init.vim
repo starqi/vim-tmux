@@ -67,7 +67,7 @@ call plug#end()
 "--------------------------------------------------
 
 "** JSX **, need eslint and local config file
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint'] "Need eslint --init for global first -> file in ~ 
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
 
 "** Haskell **, need hdevtools & hasktags, don't add to g:syntastic_haskell_checkers
@@ -118,6 +118,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 "Disable syntax check on save/open/etc
 let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
+nnoremap [l :lprev<CR>
+nnoremap ]l :lnext<CR>
 
 "Text autocompletion
 let g:deoplete#enable_at_startup = 1
