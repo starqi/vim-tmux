@@ -98,7 +98,7 @@ let g:tagbar_type_typescript = {
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme termschool
+colorscheme alduin
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -138,8 +138,14 @@ let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
 "Try to find project directory (has .svn/.git)
-let g:ctrlp_working_path_mode = 'ra'
+"let g:ctrlp_working_path_mode = 'ra'
+"let g:ctrlp_clear_cache_on_exit = 0
+
+"Use ctags -R --extras=f . instead
+let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_map = ''
+let g:ctrlp_max_files=0 "TODO - Alternative search tool
+let g:ctrlp_extensions = ['tag', 'changes']
 nnoremap <leader>0 :CtrlP<CR>
 
 "Jump to tab _
