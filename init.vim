@@ -105,8 +105,9 @@ set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 
-"Session management
+"Reload old session, open a file if want to target specific project
 let g:session_autosave = 'yes' "Saves to default.vim inside wherever ~/???/sessions is
+let g:session_autoload = 'yes'
 
 nnoremap <F12> :TagbarToggle<CR>
 
@@ -120,6 +121,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
 nnoremap [l :lprev<CR>
 nnoremap ]l :lnext<CR>
+nnoremap [t :tprev<CR>
+nnoremap ]t :tnext<CR>
 
 "Text autocompletion
 let g:deoplete#enable_at_startup = 1
@@ -145,14 +148,14 @@ let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
 "Try to find project directory (has .svn/.git)
-"let g:ctrlp_working_path_mode = 'ra'
-"let g:ctrlp_clear_cache_on_exit = 0
-
-"Use ctags -R --extras=f . instead
+"Use ctags -R --extras=f . for tag nav
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_map = ''
-let g:ctrlp_max_files=0 "TODO - Alternative search tool
 let g:ctrlp_extensions = ['tag', 'changes']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
 nnoremap <leader>0 :CtrlP<CR>
 
 "Jump to tab _
@@ -168,7 +171,7 @@ nnoremap <Leader>o :tabnew<CR>
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 
-"Fast move beetween windows
+"Fast move between windows
 nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
@@ -177,9 +180,9 @@ nnoremap <C-L> <C-W>l
 "Jump to a letter
 map t <Plug>(easymotion-s)
 
-"TODO - Improve
 vnoremap // y/<C-R>"<CR>
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> "hy:echo "Saved & ready to replace"<CR>
+vnoremap <Leader><C-r> :s/<C-r>h//gc<left><left><left>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
