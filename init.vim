@@ -101,7 +101,7 @@ let g:syntastic_typescript_checkers = ['tslint'] "Need tslint and global config 
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme alduin
+colorscheme gruvbox
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -151,13 +151,10 @@ let g:airline#extensions#tabline#show_splits = 0
 "Try to find project directory (has .svn/.git)
 "Use ctags -R --extras=f . for tag nav
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_working_path_mode = 'c'
-let g:ctrlp_map = ''
+let g:ctrlp_map = '<leader>0' "Clear default keys
 let g:ctrlp_extensions = ['tag', 'changes']
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-
-nnoremap <leader>0 :CtrlP<CR>
+"--exclude-standard especially for node_modules
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -oc --exclude-standard']
 
 "Jump to tab _
 nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
