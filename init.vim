@@ -66,7 +66,7 @@ call plug#end()
 "Specialized
 "--------------------------------------------------
 
-"** JSX **, need eslint and local config file
+"** JSX **, need eslint and local config file from eslint --init
 let g:syntastic_javascript_checkers = ['eslint'] "Need eslint --init for global first -> file in ~ 
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
 
@@ -79,7 +79,7 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 au FileType typescript nnoremap <buffer> <F3> :TSType<CR>
 au FileType typescript nnoremap <buffer> <F4> :TSDef<CR>
 let g:nvim_typescript#signature_complete = 1
-"Also tags for tagbar support, need ctags w/ https://github.com/jb55/typescript-ctags 
+"Also tags for tagbar support, need to update ~/.ctags w/ https://github.com/jb55/typescript-ctags 
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
   \ 'kinds': [
@@ -93,6 +93,7 @@ let g:tagbar_type_typescript = {
     \ 'e:enums',
   \ ]
 \ }
+let g:syntastic_typescript_checkers = ['tslint'] "Need tslint and global config from tslint --init
 
 "--------------------------------------------------
 "General
@@ -181,8 +182,7 @@ nnoremap <C-L> <C-W>l
 map t <Plug>(easymotion-s)
 
 vnoremap // y/<C-R>"<CR>
-vnoremap <C-r> "hy:echo "Saved & ready to replace"<CR>
-vnoremap <Leader><C-r> :s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> :s/<C-r>+//gc<left><left><left>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
