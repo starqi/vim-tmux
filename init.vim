@@ -81,18 +81,18 @@ au FileType typescript nnoremap <buffer> <F4> :TSDef<CR>
 let g:nvim_typescript#signature_complete = 1
 "Also tags for tagbar support, need to update ~/.ctags w/ https://github.com/jb55/typescript-ctags 
 let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
+            \ 'ctagstype': 'typescript',
+            \ 'kinds': [
+            \ 'c:classes',
+            \ 'n:modules',
+            \ 'f:functions',
+            \ 'v:variables',
+            \ 'v:varlambdas',
+            \ 'm:members',
+            \ 'i:interfaces',
+            \ 'e:enums',
+            \ ]
+            \ }
 let g:syntastic_typescript_checkers = ['tslint'] "Need tslint and global config from tslint --init
 
 "--------------------------------------------------
@@ -101,7 +101,7 @@ let g:syntastic_typescript_checkers = ['tslint'] "Need tslint and global config 
 
 let mapleader = ',' "Prefix key for many commands
 set encoding=utf-8   
-colorscheme gruvbox
+colorscheme scheakur
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -153,8 +153,17 @@ let g:airline#extensions#tabline#show_splits = 0
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<leader>0' "Clear default keys
 let g:ctrlp_extensions = ['tag', 'changes']
-"--exclude-standard especially for node_modules
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -oc --exclude-standard']
+
+let b:ctrlp_lsfiles_command = 'cd %s && git ls-files -oc --exclude-standard'
+if executable('ag')
+    set grepprg=ag\ --nocolor
+    "https://github.com/ggreer/the_silver_searcher
+    "Match file names only, not contents
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --filename-pattern ""'] 
+else
+    "--exclude-standard especially for node_modules
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command]
+endif
 
 "Jump to tab _
 nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
