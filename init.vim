@@ -187,9 +187,9 @@ nnoremap <C-L> <C-W>l
 "Jump to a letter
 map t <Plug>(easymotion-s)
 
-vnoremap / y/<C-R>"<CR>
-vnoremap <C-r> :s/<C-r>+//gc<left><left><left>
-nnoremap <Leader><C-r> :%s/<C-r>+//gc<left><left><left>
+vnoremap / "hy/<C-R>"<CR>
+vnoremap <C-r> :s/<C-r>h//gc<left><left><left>
+nnoremap <Leader><C-r> :%s/<C-r>h//gc<left><left><left>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
