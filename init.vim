@@ -131,7 +131,7 @@ let g:echodoc#enable_at_startup = 1
 set completeopt-=preview "Don't pop up previews
 set noshowmode "Replace -- INSERT --
 
-command! CopyPath redir @+ | echo expand('%:p') | redir END
+command! CopyPath let @+ = expand('%:p')
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
