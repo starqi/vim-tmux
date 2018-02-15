@@ -30,6 +30,7 @@ endif
 "Plugins, need <git, make (MinGW)>
 "--------------------------------------------------
 
+":PlugInstall! for postupdate retry
 call plug#begin(b:base . '/plugged')
 
 Plug 'xolox/vim-misc' "This guy's personal libraries
@@ -46,7 +47,13 @@ Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
 Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
-Plug 'Shougo/vimproc.vim', {'do' : 'make'} "Vim 7.4 async
+
+if has("unix")
+    Plug 'Shougo/vimproc.vim', {'do': 'make'} "Vim 7.4 async
+else
+    Plug 'Shougo/vimproc.vim', {'do': 'C:\MinGW\bin\mingw32-make.exe -f make_mingw64.mak'}
+endif
+
 Plug 'ajh17/VimCompletesMe' "Lightweight completion
 Plug 'ludovicchabant/vim-gutentags' "Tag regen
 
@@ -174,6 +181,8 @@ nnoremap <Leader>o :tabnew<CR>
 "Browse directory
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
+"Change global root directory
+nnoremap <Leader>3 :cd %:p:h<CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
