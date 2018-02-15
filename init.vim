@@ -144,7 +144,6 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Try to find project directory (has .svn/.git)
 "Use ctags -R --extras=f . to include file name in tags
 "Deal with large repos using CWD, not 'ra'
 let g:ctrlp_working_path_mode = 'a'
