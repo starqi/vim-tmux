@@ -181,8 +181,9 @@ nnoremap <Leader>o :tabnew<CR>
 "Browse directory
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
-"Change global root directory
-nnoremap <Leader>3 :cd %:p:h<CR>
+"Change root directories to current file
+nnoremap <Leader>3 :lcd %:p:h<CR>
+command! GlobalCD :cd %:p:h
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
