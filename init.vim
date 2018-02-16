@@ -102,7 +102,7 @@ let g:syntastic_typescript_checkers = ['tslint']
 
 "--------------------------------------------------
 
-command! PlugCleanUpdateRemote :PlugClean | :UpdateRemotePlugins
+command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 let mapleader = ','
 set encoding=utf-8   
@@ -182,8 +182,8 @@ nnoremap <Leader>o :tabnew<CR>
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
 "Change root directories to current file
-nnoremap <Leader>3 :lcd %:p:h<CR>
-command! GlobalCD :cd %:p:h
+nnoremap <Leader>3 :tcd %:p:h<CR>
+command! GlobalCD cd %:p:h
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
@@ -198,6 +198,8 @@ map t <Plug>(easymotion-s2)
 vnoremap / "hy/<C-R>"<CR>
 vnoremap <C-r> :s/<C-r>h//gc<left><left><left>
 nnoremap <Leader><C-r> :%s/<C-r>h//gc<left><left><left>
+
+command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
