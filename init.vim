@@ -135,6 +135,7 @@ nnoremap [t :tprev<CR>
 nnoremap ]t :tnext<CR>
 
 command! CopyPath let @+ = expand('%:p')
+command! EchoPath echo expand('%:p')
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
