@@ -82,7 +82,7 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
 "** Typescript **, need <typescript/tsserver, new ~/.ctags definition, tslint>
 au FileType typescript map <buffer> <leader>- <Plug>(TsuquyomiSignatureHelp)
-au FileType typescript map <buffer> <C-[> <Plug>(TsuquyomiDefinition)
+au FileType typescript map <buffer> <leader>= <Plug>(TsuquyomiDefinition)
 au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
 au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
@@ -134,6 +134,8 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 " Move through error list and tags
 nnoremap [l :lprev<CR>
 nnoremap ]l :lnext<CR>
+nnoremap [c :cprev<CR>
+nnoremap ]c :cnext<CR>
 nnoremap [t :tprev<CR>
 nnoremap ]t :tnext<CR>
 
