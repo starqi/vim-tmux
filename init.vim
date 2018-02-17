@@ -134,9 +134,6 @@ nnoremap ]l :lnext<CR>
 nnoremap [t :tprev<CR>
 nnoremap ]t :tnext<CR>
 
-command! CopyPath let @+ = expand('%:p')
-command! EchoPath echo expand('%:p')
-
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
 
@@ -185,6 +182,9 @@ nnoremap <Leader>2 :NERDTreeToggle<CR>
 "Change root directories to current file
 nnoremap <Leader>3 :tcd %:p:h<CR>
 command! GlobalCD cd %:p:h
+"Show/edit current path, not CWD
+command! CopyPath let @+ = expand('%:p')
+nnoremap <Leader>4 :e<C-R>=expand('%:p:h')<CR><CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
