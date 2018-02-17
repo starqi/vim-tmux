@@ -83,6 +83,8 @@ au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 "** Typescript **, need <typescript/tsserver, new ~/.ctags definition, tslint>
 au FileType typescript map <buffer> <leader>- <Plug>(TsuquyomiSignatureHelp)
 au FileType typescript map <buffer> <C-[> <Plug>(TsuquyomiDefinition)
+au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
+au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
 let g:tagbar_type_typescript = {
     \ 'ctagstype': 'typescript',
@@ -98,6 +100,7 @@ let g:tagbar_type_typescript = {
     \ ]
 \ }
 let g:tsuquyomi_completion_detail = 1 "Show types
+let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
 
 "--------------------------------------------------
@@ -184,6 +187,7 @@ nnoremap <Leader>3 :tcd %:p:h<CR>
 command! GlobalCD cd %:p:h
 "Show/edit current path, not CWD
 command! CopyPath let @+ = expand('%:p')
+command! EchoPath echo expand('%:p')
 nnoremap <Leader>4 :e<C-R>=expand('%:p:h')<CR><CR>
 
 "Fast move between windows
