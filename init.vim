@@ -199,7 +199,7 @@ nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 
 "Jump to a letter
-map t <Plug>(easymotion-s2)
+map t <Plug>(easymotion-s)
 
 "Find and replace
 vnoremap / "hy/<C-R>"<CR>
