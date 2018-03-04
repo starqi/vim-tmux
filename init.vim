@@ -105,6 +105,8 @@ let g:syntastic_typescript_checkers = ['tslint']
 
 "--------------------------------------------------
 
+set guicursor=
+
 command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 let mapleader = ','
@@ -199,12 +201,12 @@ nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 
 "Jump to a letter
-map t <Plug>(easymotion-s2)
+map t <Plug>(easymotion-s)
 
-"Find and replace
+"Find and replace highlight
 vnoremap / "hy/<C-R>"<CR>
-vnoremap <C-r> :s/<C-r>h//gc<left><left><left>
-nnoremap <Leader><C-r> :%s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> :s/<C-r>///gc<left><left><left>
+nnoremap <Leader><C-r> :%s/<C-r>///gc<left><left><left>
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
 
