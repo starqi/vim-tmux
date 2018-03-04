@@ -61,7 +61,7 @@ Plug 'ludovicchabant/vim-gutentags' "Tag regen
 Plug 'vimwiki/vimwiki'
 Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
 Plug 'Quramy/tsuquyomi' "TSServer integration
-Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'pangloss/vim-javascript' 
 Plug 'mxw/vim-jsx' 
 Plug 'neovimhaskell/haskell-vim' 
@@ -86,19 +86,7 @@ au FileType typescript map <buffer> <leader>= <Plug>(TsuquyomiDefinition)
 au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
 au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
-let g:tagbar_type_typescript = {
-    \ 'ctagstype': 'typescript',
-    \ 'kinds': [
-        \ 'c:classes',
-        \ 'n:modules',
-        \ 'f:functions',
-        \ 'v:variables',
-        \ 'v:varlambdas',
-        \ 'm:members',
-        \ 'i:interfaces',
-        \ 'e:enums',
-    \ ]
-\ }
+
 let g:tsuquyomi_completion_detail = 1 "Show types
 let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
@@ -192,7 +180,7 @@ command! GlobalCD cd %:p:h
 "Show/edit current path, not CWD
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
-nnoremap <Leader>4 :e <C-R>=expand('%:p:h')<CR><CR>
+nnoremap <Leader>4 :e<C-R>=expand('%:p:h')<CR><CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
