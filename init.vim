@@ -192,7 +192,7 @@ command! GlobalCD cd %:p:h
 "Show/edit current path, not CWD
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
-nnoremap <Leader>4 :e<C-R>=expand('%:p:h')<CR><CR>
+nnoremap <Leader>4 :e <C-R>=expand('%:p:h')<CR><CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
