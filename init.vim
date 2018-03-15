@@ -99,7 +99,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 let mapleader = ','
 set encoding=utf-8   
-colorscheme gruvbox
+colorscheme papercolor
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -180,7 +180,7 @@ command! GlobalCD cd %:p:h
 "Show/edit current path, not CWD
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
-nnoremap <Leader>4 :e<C-R>=expand('%:p:h')<CR><CR>
+nnoremap <Leader>4 :e <C-R>=expand('%:p:h')<CR><CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
