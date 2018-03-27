@@ -1,6 +1,9 @@
 
 " Neovim, Windows, Linux
 
+" TODO
+" - Angular
+
 "--------------------------------------------------
 "Auto install plugins, need <curl>
 "--------------------------------------------------
@@ -93,6 +96,16 @@ let g:syntastic_typescript_checkers = ['tslint']
 
 "--------------------------------------------------
 
+"TODO Learn this
+function DeleteHiddenBuffers()
+    let tpbl=[]
+    call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
+        silent execute 'bwipeout' buf
+    endfor
+endfunction
+
+"Fix terminal incompatibilities with blinking cursor
 set guicursor=
 
 command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
@@ -174,13 +187,13 @@ nnoremap <Leader>o :tabnew<CR>
 "Browse directory
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
 nnoremap <Leader>2 :NERDTreeToggle<CR>
-"Change root directories to current file
+"Set each tab to its own workspace
 nnoremap <Leader>3 :tcd %:p:h<CR>
 command! GlobalCD cd %:p:h
-"Show/edit current path, not CWD
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
-nnoremap <Leader>4 :e <C-R>=expand('%:p:h')<CR><CR>
+"View current folder
+nnoremap <Leader>4 :NERDTreeFind<CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
@@ -197,6 +210,8 @@ vnoremap <C-r> :s/<C-r>///gc<left><left><left>
 nnoremap <Leader><C-r> :%s/<C-r>///gc<left><left><left>
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
+command! -nargs=1 Find ExtCmd ag <args>
+command! -nargs=1 FindFile ExtCmd ag -g <args>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
