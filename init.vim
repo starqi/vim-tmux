@@ -183,6 +183,7 @@ nnoremap <Leader>q :tabp<CR>
 nnoremap <Leader>e :tabn<CR>
 nnoremap <Leader>c :tabc<CR> 
 nnoremap <Leader>o :tabnew<CR>
+nnoremap <Leader>O :tabp<CR>:tabnew<CR>
 
 "Browse directory
 nnoremap <Leader>1 :NERDTreeFocus<CR> 
