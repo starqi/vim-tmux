@@ -68,6 +68,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'pangloss/vim-javascript' 
 Plug 'mxw/vim-jsx' 
 Plug 'neovimhaskell/haskell-vim' 
+Plug 'davidhalter/jedi-vim'
 
 call plug#end()
 
@@ -97,19 +98,22 @@ let g:syntastic_typescript_checkers = ['tslint']
 "--------------------------------------------------
 
 "TODO Learn this
-function DeleteHiddenBuffers()
+function! DeleteHiddenBuffers()
     let tpbl=[]
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
-        silent execute 'bwipeout' buf
+        silent execute 'bwipeout!' buf
     endfor
 endfunction
+
+command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
 
 command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
+set noswapfile
 let mapleader = ','
 set encoding=utf-8   
 colorscheme papercolor
