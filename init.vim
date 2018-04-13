@@ -50,6 +50,7 @@ Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
 Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
+Plug 'udalov/kotlin-vim'
 
 if has("unix")
     Plug 'Shougo/vimproc.vim', {'do': 'make'} "Vim 7.4 async
