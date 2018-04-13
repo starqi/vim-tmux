@@ -92,16 +92,20 @@ au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
 au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
 
+"** Python **
+let g:jedi#goto_assignments_command = "<leader>h" "Don't conflict with :noh
+
 let g:tsuquyomi_completion_detail = 1 "Show types
 let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
 
 "--------------------------------------------------
 
-"TODO Learn this
 function! DeleteHiddenBuffers()
     let tpbl=[]
+    "For 1 to # of tabs, temp var = v:val, add all window ids inside buffer to `tpbl`
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+    "Loop through 1 to max/last buffer number, deleting all those not in `tpbl` (visible)
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
         silent execute 'bwipeout!' buf
     endfor
@@ -117,7 +121,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 set noswapfile
 let mapleader = ','
 set encoding=utf-8   
-colorscheme papercolor
+colorscheme PaperColor "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
