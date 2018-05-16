@@ -215,7 +215,7 @@ nnoremap <C-L> <C-W>l
 map t <Plug>(easymotion-s)
 
 "Find and replace highlight
-vnoremap / "hy/<C-R>"<CR>
+vnoremap / "hy/<C-R>"<CR><C-o>
 vnoremap <C-r> :s/<C-r>///gc<left><left><left>
 nnoremap <Leader><C-r> :%s/<C-r>///gc<left><left><left>
 
