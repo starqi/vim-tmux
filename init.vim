@@ -91,13 +91,20 @@ au FileType typescript map <buffer> <leader>= <Plug>(TsuquyomiDefinition)
 au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
 au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
-
-"** Python **
-let g:jedi#goto_assignments_command = "<leader>h" "Don't conflict with :noh
-
 let g:tsuquyomi_completion_detail = 1 "Show types
 let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
+
+function! LintFix()
+    "Following the convention that the root folder (with tslint.json) is the CWD
+    execute "!tslint -p " . getcwd() . " --fix %:p"
+    :e
+    :SyntasticCheck
+endfunction
+au FileType typescript command! LintFix call LintFix()
+
+"** Python **
+let g:jedi#goto_assignments_command = "<leader>h" "Don't conflict with :noh
 
 "--------------------------------------------------
 
@@ -121,7 +128,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 set noswapfile
 let mapleader = ','
 set encoding=utf-8   
-colorscheme PaperColor "Linux is somehow case sensitive here
+colorscheme rakr "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -178,7 +185,7 @@ if executable('ag')
     set grepprg=ag\ --nocolor
     "https://github.com/ggreer/the_silver_searcher
     "Match file names only, not contents
-    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --filename-pattern ""'] 
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --filename-pattern ""'] 
 else
     "--exclude-standard especially for node_modules
     let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command]
@@ -237,5 +244,5 @@ set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
-set foldmethod=syntax foldlevel=99 " Don't collapse on start
+set foldmethod=indent foldlevel=99 " Don't collapse on start
 au FileType * setlocal fo-=cro "Stop comment formatting
