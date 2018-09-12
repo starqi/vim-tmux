@@ -128,7 +128,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 set noswapfile
 let mapleader = ','
 set encoding=utf-8   
-colorscheme rakr "Linux is somehow case sensitive here
+colorscheme gruvbox "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -185,7 +185,7 @@ if executable('ag')
     set grepprg=ag\ --nocolor
     "https://github.com/ggreer/the_silver_searcher
     "Match file names only, not contents
-    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --filename-pattern ""'] 
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --ignore dist --filename-pattern ""'] 
 else
     "--exclude-standard especially for node_modules
     let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command]
@@ -227,8 +227,9 @@ vnoremap <C-r> :s/<C-r>///gc<left><left><left>
 nnoremap <Leader><C-r> :%s/<C-r>///gc<left><left><left>
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
-command! -nargs=1 Find ExtCmd ag <args>
-command! -nargs=1 FindFile ExtCmd ag -g <args>
+"TODO Better interface
+command! -nargs=1 Find ExtCmd ag --ignore node_modules --ignore dist <args>
+command! -nargs=1 FindFile ExtCmd ag -g --ignore node_modules --ignore dist <args>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
