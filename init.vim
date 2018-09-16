@@ -86,11 +86,19 @@ au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
 
 "** Typescript **, need <typescript/tsserver, new ~/.ctags definition, tslint>
+
+function! TsuDefWithJumpSave()
+    normal m'
+    TsuquyomiDefinition
+endfunction
+command! TsuDefWithJumpSave call TsuDefWithJumpSave()
+
 au FileType typescript map <buffer> <leader>- <Plug>(TsuquyomiSignatureHelp)
-au FileType typescript map <buffer> <leader>= <Plug>(TsuquyomiDefinition)
+au FileType typescript map <buffer> <leader>= :TsuDefWithJumpSave<CR>
 au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
 au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
 au FileType typescript setlocal previewheight=3
+
 let g:tsuquyomi_completion_detail = 1 "Show types
 let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
