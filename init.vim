@@ -26,11 +26,12 @@ if !filereadable(b:plug)
         execute '!mkdir ' . b:autoload 
     endif
     execute '!curl -fLo ' . b:plug . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    echo 'Type :PlugInstall'
+    execute 'source ' . b:plug
+    let b:auto_run_plug_install=1
 endif
 
 "--------------------------------------------------
-"Plugins, need <git, make (MinGW)>
+"Plugins, need <git, make (MinGW), Python>
 "--------------------------------------------------
 
 ":PlugInstall! for postupdate retry
@@ -72,6 +73,10 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'davidhalter/jedi-vim'
 
 call plug#end()
+
+if exists('b:auto_run_plug_install')
+    :PlugInstall
+endif
 
 "--------------------------------------------------
 "Specialized
