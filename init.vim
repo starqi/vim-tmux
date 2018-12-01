@@ -1,9 +1,6 @@
 
 " Neovim, Windows, Linux
 
-" TODO
-" - Angular
-
 "--------------------------------------------------
 "Auto install plugins, need <curl>
 "--------------------------------------------------
@@ -34,10 +31,18 @@ endif
 "Plugins, need <git, make (MinGW), Python>
 "--------------------------------------------------
 
-":PlugInstall! for postupdate retry
+"******************** CUSTOM ACTION REQUIRED ********************
+if has("unix") 
+    let b:languageClientInstallDo='bash install.sh'
+else 
+    let b:languageClientInstallDo='powershell *executionpolicy bypass *File install.ps1'
+endif
+"****************************************************************
+
 call plug#begin(b:base . '/plugged')
 
 Plug 'xolox/vim-misc' "This guy's personal libraries
+"FIXME Doesn't work with eg. preview buffers and need to :e certain files
 Plug 'xolox/vim-session' "Session management
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'scrooloose/syntastic' "Lint
@@ -51,26 +56,20 @@ Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
 Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
-Plug 'udalov/kotlin-vim'
-
-if has("unix")
-    Plug 'Shougo/vimproc.vim', {'do': 'make'} "Vim 7.4 async
-else
-    Plug 'Shougo/vimproc.vim', {'do': 'C:\MinGW\bin\mingw32-make.exe -f make_mingw64.mak'}
-endif
-
 Plug 'ajh17/VimCompletesMe' "Lightweight completion
 Plug 'ludovicchabant/vim-gutentags' "Tag regen
 
-"Specialized
-Plug 'vimwiki/vimwiki'
-Plug 'bitc/vim-hdevtools' "Sets up VIM commands for hdevtools features
-Plug 'Quramy/tsuquyomi' "TSServer integration
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'pangloss/vim-javascript' 
-Plug 'mxw/vim-jsx' 
-Plug 'neovimhaskell/haskell-vim' 
-Plug 'davidhalter/jedi-vim'
+"Languages
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': b:languageClientInstallDo
+    \ }
+Plug 'HerringtonDarkholme/yats.vim' "Basic Typescript
+Plug 'pangloss/vim-javascript' "Basic
+Plug 'mxw/vim-jsx' "Basic
+Plug 'neovimhaskell/haskell-vim' "Basic
+Plug 'davidhalter/jedi-vim' "Full Python
+Plug 'udalov/kotlin-vim' "Basic
 
 call plug#end()
 
@@ -78,34 +77,32 @@ if exists('b:auto_run_plug_install')
     :PlugInstall
 endif
 
+let mapleader = ','
+
 "--------------------------------------------------
-"Specialized
+"Languages
 "--------------------------------------------------
 
-"** JSX **, need <eslint>
+"JS - Need <eslint>
+"TS - Need <typescript/tsserver, tslint>
+
+"******************** CUSTOM ACTION REQUIRED ********************
+let g:LanguageClient_serverCommands = {
+    \ 'typescript': ['C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd']
+    \ }
+"****************************************************************
+
+nnoremap <leader>- :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>= :call LanguageClient#textDocument_definition()<CR>
+"See full list of options
+nnoremap <leader>\ :call LanguageClient_contextMenu()<CR>
+
+"Manual syntax checking
+nnoremap <F2> :SyntasticCheck<CR>
+nnoremap <leader><F2> :SyntasticReset<CR>
+
 let g:syntastic_javascript_checkers = ['eslint']
 let g:jsx_ext_required = 0 "JSX highlighting for JS files
-
-"** Haskell **, need <hdevtools, hasktags> (Don't add to g:syntastic_haskell_checkers)
-au FileType haskell nnoremap <buffer> <F3> :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <Leader><F3> :HdevtoolsClear<CR>
-
-"** Typescript **, need <typescript/tsserver, new ~/.ctags definition, tslint>
-
-function! TsuDefWithJumpSave()
-    normal m'
-    TsuquyomiDefinition
-endfunction
-command! TsuDefWithJumpSave call TsuDefWithJumpSave()
-
-au FileType typescript map <buffer> <leader>- <Plug>(TsuquyomiSignatureHelp)
-au FileType typescript map <buffer> <leader>= :TsuDefWithJumpSave<CR>
-au FileType typescript map <buffer> <F3> :TsuquyomiGeterr<CR>
-au FileType typescript map <buffer> <Leader><F3> :cclose<CR>
-au FileType typescript setlocal previewheight=3
-
-let g:tsuquyomi_completion_detail = 1 "Show types
-let g:tsuquyomi_disable_quickfix = 1 "Don't check on save
 let g:syntastic_typescript_checkers = ['tslint']
 
 function! LintFix()
@@ -116,7 +113,7 @@ function! LintFix()
 endfunction
 au FileType typescript command! LintFix call LintFix()
 
-"** Python **
+" Python
 let g:jedi#goto_assignments_command = "<leader>h" "Don't conflict with :noh
 
 "--------------------------------------------------
@@ -139,9 +136,8 @@ set guicursor=
 command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 set noswapfile
-let mapleader = ','
 set encoding=utf-8   
-colorscheme gruvbox "Linux is somehow case sensitive here
+colorscheme lucius "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -151,11 +147,14 @@ let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
 
 nnoremap <F12> :TagbarToggle<CR>
-let g:gutentags_enabled = 0 "Enable when .notags/roots set up
+let g:gutentags_enabled = 0 "TODO Enable when .notags/roots set up
 
-"Manual syntax checking
-nnoremap <F2> :SyntasticCheck<CR>
-nnoremap <Leader><F2> :SyntasticReset<CR>
+"Close quickfix, location, preview windows
+nnoremap <leader><leader>c :close<CR>
+nnoremap <leader><leader>l :lclose<CR>
+nnoremap <leader><leader>p :pclose<CR>
+nnoremap <leader><space>c :copen<CR>
+nnoremap <leader><space>l :lopen<CR>
 
 "Pop up the error list if there are errors after :SyntasticCheck
 let g:syntastic_always_populate_loc_list = 1
@@ -175,7 +174,7 @@ nnoremap ]t :tnext<CR>
 tnoremap <Esc> <C-\><C-n>
 
 "Clear highlighting
-nnoremap <Leader>g :noh<CR>
+nnoremap <leader>g :noh<CR>
 
 "Tab workflow
 let g:airline#extensions#tabline#enabled = 1
@@ -205,48 +204,51 @@ else
 endif
 
 "Jump to tab _
-nnoremap <expr> <Leader>w ":tabn " . nr2char(getchar()) . "<CR>"
+nnoremap <expr> <leader>w ":tabn " . nr2char(getchar()) . "<CR>"
 "Move tab after _
-nnoremap <expr> <Leader>s ":tabm " . nr2char(getchar()) . "<CR>"
-nnoremap <Leader>q :tabp<CR>
-nnoremap <Leader>e :tabn<CR>
-nnoremap <Leader>c :tabc<CR> 
-nnoremap <Leader>o :tabnew<CR>
-nnoremap <Leader>O :tabp<CR>:tabnew<CR>
+nnoremap <expr> <leader>s ":tabm " . nr2char(getchar()) . "<CR>"
+nnoremap <leader>q :tabp<CR>
+nnoremap <leader>e :tabn<CR>
+nnoremap <leader>c :tabc<CR> 
+nnoremap <leader>o :tabnew<CR>
+nnoremap <leader>O :tabp<CR>:tabnew<CR>
 
 "Browse directory
-nnoremap <Leader>1 :NERDTreeFocus<CR> 
-nnoremap <Leader>2 :NERDTreeToggle<CR>
+nnoremap <leader>1 :NERDTreeFocus<CR> 
+nnoremap <leader>2 :NERDTreeToggle<CR>
 "Set each tab to its own workspace
-nnoremap <Leader>3 :tcd %:p:h<CR>
+"TODO This workflow sucks
+nnoremap <leader>3 :tcd %:p:h<CR>
 command! GlobalCD cd %:p:h
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
 "View current folder
-nnoremap <Leader>4 :NERDTreeFind<CR>
+nnoremap <leader>4 :NERDTreeFind<CR>
 
 "Fast move between windows
 nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
+nnoremap <leader>d :bw!<CR> 
 
 "Jump to a letter
 map t <Plug>(easymotion-s)
 
 "Find and replace highlight
+"TODO Escape special chars
 vnoremap / "hy/<C-R>"<CR><C-o>
 vnoremap <C-r> :s/<C-r>///gc<left><left><left>
-nnoremap <Leader><C-r> :%s/<C-r>///gc<left><left><left>
+nnoremap <leader><C-r> :%s/<C-r>///gc<left><left><left>
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
-"TODO Better interface
 command! -nargs=1 Find ExtCmd ag --ignore node_modules --ignore dist <args>
 command! -nargs=1 FindFile ExtCmd ag -g --ignore node_modules --ignore dist <args>
 
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
 
+set previewheight=6
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
 set rnu nu "Relative line numbers for easy jump
