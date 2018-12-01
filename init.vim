@@ -31,13 +31,11 @@ endif
 "Plugins, need <git, make (MinGW), Python>
 "--------------------------------------------------
 
-"******************** CUSTOM ACTION REQUIRED ********************
 if has("unix") 
-    let b:languageClientInstallDo='bash install.sh'
+    let b:languageClientInstallDo = 'bash install.sh'
 else 
-    let b:languageClientInstallDo='powershell *executionpolicy bypass *File install.ps1'
+    let b:languageClientInstallDo = 'powershell *executionpolicy bypass *File install.ps1'
 endif
-"****************************************************************
 
 call plug#begin(b:base . '/plugged')
 
@@ -78,19 +76,25 @@ if exists('b:auto_run_plug_install')
 endif
 
 let mapleader = ','
+let g:loaded_python_provider = 1
 
 "--------------------------------------------------
 "Languages
 "--------------------------------------------------
 
 "JS - Need <eslint>
-"TS - Need <typescript/tsserver, tslint>
+"TS - Need <typescript/tsserver, tslint, javascript-typescript-langserver (NPM global)>
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let g:LanguageClient_serverCommands = {
-    \ 'typescript': ['C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd']
+    \ 'typescript': ['/usr/bin/javascript-typescript-stdio']
     \ }
 "****************************************************************
+au FileType typescript setlocal signcolumn=yes
+
+"Stop using fzf
+let g:LanguageClient_selectionUI = 'location-list'
+let g:LanguageClient_fzfContextMenu = '0'
 
 nnoremap <leader>- :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>= :call LanguageClient#textDocument_definition()<CR>
@@ -137,7 +141,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 set noswapfile
 set encoding=utf-8   
-colorscheme lucius "Linux is somehow case sensitive here
+colorscheme jellybeans "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
@@ -150,7 +154,7 @@ nnoremap <F12> :TagbarToggle<CR>
 let g:gutentags_enabled = 0 "TODO Enable when .notags/roots set up
 
 "Close quickfix, location, preview windows
-nnoremap <leader><leader>c :close<CR>
+nnoremap <leader><leader>c :cclose<CR>
 nnoremap <leader><leader>l :lclose<CR>
 nnoremap <leader><leader>p :pclose<CR>
 nnoremap <leader><space>c :copen<CR>
@@ -248,7 +252,7 @@ command! -nargs=1 FindFile ExtCmd ag -g --ignore node_modules --ignore dist <arg
 "Vim Wiki
 let g:vimwiki_folding = 'expr'
 
-set previewheight=6
+set previewheight=12
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
 set rnu nu "Relative line numbers for easy jump
