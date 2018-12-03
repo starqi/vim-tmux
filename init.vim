@@ -54,7 +54,7 @@ Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
 Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
 Plug 'tpope/vim-fugitive' "Git helper
 Plug 'majutsushi/tagbar' "Ctags single file preview
-Plug 'ajh17/VimCompletesMe' "Lightweight completion
+Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' } "Completion
 Plug 'ludovicchabant/vim-gutentags' "Tag regen
 
 "Languages
@@ -76,7 +76,6 @@ if exists('b:auto_run_plug_install')
 endif
 
 let mapleader = ','
-let g:loaded_python_provider = 1
 
 "--------------------------------------------------
 "Languages
@@ -146,6 +145,7 @@ set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 set completeopt+=menuone "Show menu on one item for type sigs
+let g:deoplete#enable_at_startup = 1
 
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
