@@ -85,11 +85,12 @@ let mapleader = ','
 "TS - Need <typescript/tsserver, tslint, javascript-typescript-langserver (NPM global)>
 
 "******************** CUSTOM ACTION REQUIRED ********************
-let b:jsTsStdioList = []
-call add(b:jsTsStdioList, 'C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
+let b:tsLangServer = []
+call add(b:tsLangServer, 'C:\Users\eric\AppData\Roaming\npm\typescript-language-server.cmd')
+call add(b:tsLangServer, '--stdio')
 let g:LanguageClient_serverCommands = {
-    \ 'typescript.tsx': b:jsTsStdioList,
-    \ 'typescript': b:jsTsStdioList
+    \ 'typescript.tsx': b:tsLangServer,
+    \ 'typescript': b:tsLangServer
     \ }
 "****************************************************************
 au FileType typescript setlocal signcolumn=yes
