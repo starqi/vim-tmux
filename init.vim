@@ -86,7 +86,7 @@ let mapleader = ','
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let b:tsLangServer = []
-call add(b:tsLangServer, 'C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
+call add(b:tsLangServer, '/usr/bin/javascript-typescript-stdio')
 let g:LanguageClient_serverCommands = {
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
@@ -102,6 +102,7 @@ nnoremap <leader>- :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>= :call LanguageClient#textDocument_definition()<CR>
 "See full list of options
 nnoremap <leader>\ :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>9 :call LanguageClient#explainErrorAtPoint()<CR>
 
 "Manual syntax checking
 nnoremap <F2> :SyntasticCheck<CR>
