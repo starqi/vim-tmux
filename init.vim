@@ -34,7 +34,7 @@ endif
 if has("unix") 
     let b:languageClientInstallDo = 'bash install.sh'
 else 
-    let b:languageClientInstallDo = 'powershell *executionpolicy bypass *File install.ps1'
+    let b:languageClientInstallDo = 'powershell -executionpolicy bypass -File install.ps1'
 endif
 
 call plug#begin(b:base . '/plugged')
@@ -86,7 +86,7 @@ let mapleader = ','
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let b:tsLangServer = []
-call add(b:tsLangServer, '/usr/bin/javascript-typescript-stdio')
+call add(b:tsLangServer, 'C:\Users\ewang\AppData\Local\Yarn\bin\javascript-typescript-stdio.cmd')
 let g:LanguageClient_serverCommands = {
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
@@ -205,7 +205,7 @@ if executable('ag')
     set grepprg=ag\ --nocolor
     "https://github.com/ggreer/the_silver_searcher
     "Match file names only, not contents
-    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --ignore dist --filename-pattern ""'] 
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --ignore node_modulesLOL --ignore dist --filename-pattern ""'] 
 else
     "--exclude-standard especially for node_modules
     let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command]
