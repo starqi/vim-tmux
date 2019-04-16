@@ -244,10 +244,9 @@ nnoremap <leader>d :bw!<CR>
 map t <Plug>(easymotion-s)
 
 "Find and replace highlight
-"TODO Escape special chars
-vnoremap / "hy/<C-R>"<CR><C-o>
-vnoremap <C-r> :s/<C-r>///gc<left><left><left>
-nnoremap <leader><C-r> :%s/<C-r>///gc<left><left><left>
+vnoremap / "hy/\V<C-R>"<CR><C-o>
+vnoremap <C-r> :s/\V<C-r>///gc<left><left><left>
+nnoremap <leader><C-r> :%s/\V<C-r>///gc<left><left><left>
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
 command! -nargs=1 Find ExtCmd ag --ignore node_modules --ignore dist <args>
