@@ -173,8 +173,9 @@ let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_
 " Move through error list and tags
 nnoremap [l :lprev<CR>
 nnoremap ]l :lnext<CR>
-nnoremap [c :cprev<CR>
-nnoremap ]c :cnext<CR>
+" [c is built-in for navigating diffs
+nnoremap [v :cprev<CR>
+nnoremap ]v :cnext<CR>
 nnoremap [t :tprev<CR>
 nnoremap ]t :tnext<CR>
 
