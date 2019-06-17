@@ -1,2 +1,2 @@
-GuiFont! DejaVu Sans Mono:h11
-GuiTabline 0
+Guifont! Liberation Mono:h11
+GuiTabline! 0
