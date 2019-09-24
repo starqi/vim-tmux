@@ -86,7 +86,7 @@ let mapleader = ','
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let b:tsLangServer = []
-call add(b:tsLangServer, 'C:\Users\ewang\AppData\Local\Yarn\bin\javascript-typescript-stdio.cmd')
+call add(b:tsLangServer, 'C:\Users\starq\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
 let g:LanguageClient_serverCommands = {
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
@@ -182,8 +182,8 @@ nnoremap ]t :tnext<CR>
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
 
-"Clear highlighting
 nnoremap <leader>g :noh<CR>
+nnoremap <leader>W :set wrap!<CR>
 
 "Tab workflow
 let g:airline#extensions#tabline#enabled = 1
