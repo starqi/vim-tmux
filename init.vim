@@ -86,7 +86,7 @@ let mapleader = ','
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let b:tsLangServer = []
-call add(b:tsLangServer, 'C:\Users\ewang\AppData\Local\Yarn\bin\javascript-typescript-stdio.cmd')
+call add(b:tsLangServer, 'javascript-typescript-stdio')
 let g:LanguageClient_serverCommands = {
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
@@ -184,6 +184,7 @@ tnoremap <Esc> <C-\><C-n>
 
 "Clear highlighting
 nnoremap <leader>g :noh<CR>
+nnoremap <leader>f :sign unplace *<CR>
 
 "Tab workflow
 let g:airline#extensions#tabline#enabled = 1
@@ -248,6 +249,9 @@ map t <Plug>(easymotion-s)
 vnoremap / "hy/\V<C-R>"<CR><C-o>
 vnoremap <C-r> :s/\V<C-r>///gc<left><left><left>
 nnoremap <leader><C-r> :%s/\V<C-r>///gc<left><left><left>
+
+"Split function calls
+vnoremap <leader>c :s/\([,(]\\|.\()\)\@=\)\ \?/\1\r/g<CR>v%=
 
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
 command! -nargs=1 Find ExtCmd ag --ignore node_modules --ignore dist <args>
