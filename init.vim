@@ -182,9 +182,9 @@ nnoremap ]t :tnext<CR>
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
 
-"Clear highlighting
 nnoremap <leader>g :noh<CR>
 nnoremap <leader>f :sign unplace *<CR>
+nnoremap <leader>W :set wrap!<CR>
 
 "Tab workflow
 let g:airline#extensions#tabline#enabled = 1
