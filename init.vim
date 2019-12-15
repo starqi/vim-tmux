@@ -88,12 +88,12 @@ let mapleader = ','
 let b:tsLangServer = []
 call add(b:tsLangServer, 'C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
 let g:LanguageClient_serverCommands = {
+    \ 'typescriptreact': b:tsLangServer,
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
     \ }
 "****************************************************************
 au FileType typescript,typescript.tsx setlocal signcolumn=yes
-au bufnewfile,bufread *.tsx set filetype=typescript.tsx
 
 "Stop using fzf
 let g:LanguageClient_selectionUI = 'location-list'
@@ -145,7 +145,7 @@ command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 set noswapfile
 set encoding=utf-8   
-colorscheme jellybeans "Linux is somehow case sensitive here
+colorscheme atom "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
