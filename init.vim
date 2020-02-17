@@ -86,14 +86,14 @@ let mapleader = ','
 
 "******************** CUSTOM ACTION REQUIRED ********************
 let b:tsLangServer = []
-call add(b:tsLangServer, 'C:\Users\eric\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
+call add(b:tsLangServer, 'javascript-typescript-stdio')
 let g:LanguageClient_serverCommands = {
     \ 'typescriptreact': b:tsLangServer,
     \ 'typescript.tsx': b:tsLangServer,
     \ 'typescript': b:tsLangServer
     \ }
 "****************************************************************
-au FileType typescript,typescript.tsx setlocal signcolumn=yes
+au FileType typescript,typescriptreact,typescript.tsx setlocal signcolumn=yes
 
 "Stop using fzf
 let g:LanguageClient_selectionUI = 'location-list'
