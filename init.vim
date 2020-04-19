@@ -40,7 +40,6 @@ endif
 call plug#begin(b:base . '/plugged')
 
 Plug 'xolox/vim-misc' "This guy's personal libraries
-"FIXME Doesn't work with eg. preview buffers and need to :e certain files
 Plug 'xolox/vim-session' "Session management
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'scrooloose/syntastic' "Lint
@@ -228,7 +227,6 @@ nnoremap <leader>O :tabp<CR>:tabnew<CR>
 nnoremap <leader>1 :NERDTreeFocus<CR> 
 nnoremap <leader>2 :NERDTreeToggle<CR>
 "Set each tab to its own workspace
-"TODO This workflow sucks
 nnoremap <leader>3 :tcd %:p:h<CR>
 command! GlobalCD cd %:p:h
 command! CopyPath let @+ = expand('%:p')
@@ -247,7 +245,7 @@ nnoremap <leader>d :bw!<CR>
 map t <Plug>(easymotion-s)
 
 "Find and replace highlight
-vnoremap / "hy/\V<C-R>"<CR><C-o>
+vnoremap / "hy0/\V<C-R>h<CR>
 vnoremap <C-r> :s/\V<C-r>///gc<left><left><left>
 nnoremap <leader><C-r> :%s/\V<C-r>///gc<left><left><left>
 
