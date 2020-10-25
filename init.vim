@@ -65,7 +65,6 @@ Plug 'HerringtonDarkholme/yats.vim' "Basic Typescript
 Plug 'pangloss/vim-javascript' "Basic
 Plug 'mxw/vim-jsx' "Basic
 Plug 'neovimhaskell/haskell-vim' "Basic
-Plug 'davidhalter/jedi-vim' "Full Python
 Plug 'udalov/kotlin-vim' "Basic
 
 call plug#end()
@@ -84,13 +83,20 @@ let mapleader = ','
 "TS - Need <typescript/tsserver, tslint, javascript-typescript-langserver (NPM global)>
 
 "******************** CUSTOM ACTION REQUIRED ********************
+
 let b:tsLangServer = []
-call add(b:tsLangServer, 'javascript-typescript-stdio')
+call add(b:tsLangServer, 'C:\Users\starq\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
+
+let b:goLangServer = []
+call add(b:goLangServer, 'C:\Users\starq\go\bin\go-langserver')
+
 let g:LanguageClient_serverCommands = {
     \ 'typescriptreact': b:tsLangServer,
     \ 'typescript.tsx': b:tsLangServer,
-    \ 'typescript': b:tsLangServer
+    \ 'typescript': b:tsLangServer,
+    \ 'go': b:goLangServer
     \ }
+
 "****************************************************************
 au FileType typescript,typescriptreact,typescript.tsx setlocal signcolumn=yes
 
@@ -119,9 +125,6 @@ function! LintFix()
     :SyntasticCheck
 endfunction
 au FileType typescript command! LintFix call LintFix()
-
-" Python
-let g:jedi#goto_assignments_command = "<leader>h" "Don't conflict with :noh
 
 "--------------------------------------------------
 
