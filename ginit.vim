@@ -1,2 +1,3 @@
-Guifont! Liberation Mono:h11
+Guifont! Consolas:h14
 GuiTabline 0
+GuiPopupmenu 0

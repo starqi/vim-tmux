@@ -1,8 +1,9 @@
 
 " Neovim, Windows, Linux
+" Dependencies: curl, git, ag, depending on plugins... Python, Node, make
 
 "--------------------------------------------------
-"Auto install plugins, need <curl>
+"Auto install plugins
 "--------------------------------------------------
 
 if has("unix") 
@@ -28,21 +29,14 @@ if !filereadable(b:plug)
 endif
 
 "--------------------------------------------------
-"Plugins, need <git, make (MinGW), Python>
+"Plugins
 "--------------------------------------------------
-
-if has("unix") 
-    let b:languageClientInstallDo = 'bash install.sh'
-else 
-    let b:languageClientInstallDo = 'powershell -executionpolicy bypass -File install.ps1'
-endif
 
 call plug#begin(b:base . '/plugged')
 
 Plug 'xolox/vim-misc' 
 Plug 'xolox/vim-session' 
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'scrooloose/syntastic' 
 Plug 'scrooloose/nerdtree' 
 Plug 'Lokaltog/vim-easymotion' 
 Plug 'vim-scripts/YankRing.vim' 
@@ -53,12 +47,8 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'ctrlpvim/ctrlp.vim' 
 Plug 'tpope/vim-fugitive' 
 Plug 'majutsushi/tagbar' 
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' } 
-Plug 'ludovicchabant/vim-gutentags' 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': b:languageClientInstallDo
-    \ }
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Basic language support
 Plug 'HerringtonDarkholme/yats.vim' 
@@ -76,60 +66,42 @@ endif
 let mapleader = ','
 
 "--------------------------------------------------
-"Languages
+"Coc, plugins are configured separately
 "--------------------------------------------------
 
-"JS - Need <eslint>
-"TS - Need <typescript/tsserver, tslint, (whichever lang server)>
+"TODO Currently just some of the default suggestions
 
-let b:tsLangServer = []
-call add(b:tsLangServer, 'C:\Users\starq\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
+set signcolumn=yes
+set cmdheight=2
+set updatetime=300
 
-let b:goLangServer = []
-call add(b:goLangServer, 'gopls.exe')
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next);
+nmap <leader>rn <Plug>(coc-rename)
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>lf <Plug>(coc-fix-current)
 
-let g:LanguageClient_serverCommands = {
-    \ 'typescriptreact': b:tsLangServer,
-    \ 'typescript.tsx': b:tsLangServer,
-    \ 'typescript': b:tsLangServer,
-    \ 'go': b:goLangServer
-    \ }
-"let g:LanguageClient_loggingFile = 'C:\Users\starq\OneDrive\Desktop\lc-logs.txt'
-
-au FileType typescript,typescriptreact,typescript.tsx setlocal signcolumn=yes
-
-"Stop using fzf
-let g:LanguageClient_selectionUI = 'location-list'
-let g:LanguageClient_fzfContextMenu = '0'
-let g:LanguageClient_hoverPreview = 'Always'
-
-nnoremap <leader>- :call LanguageClient#textDocument_hover()<CR>
-"TODO Implementation vs definition & different lang servers...
-nnoremap <leader>= :call LanguageClient#textDocument_implementation()<CR>
-nnoremap <leader>\ :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>9 :call LanguageClient#explainErrorAtPoint()<CR>
-
-"Manual syntax checking
-nnoremap <F2> :SyntasticCheck<CR>
-nnoremap <leader><F2> :SyntasticReset<CR>
-
-let g:syntastic_javascript_checkers = ['eslint']
-let g:jsx_ext_required = 0 "JSX highlighting for JS files
-let g:syntastic_typescript_checkers = ['tslint']
-
-function! LintFix()
-    "Following the convention that the root folder (with tslint.json) is the CWD
-    execute "!tslint -p " . getcwd() . " --fix %:p"
-    :e
-    :SyntasticCheck
+nnoremap K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
-au FileType typescript command! LintFix call LintFix()
 
-"Pop up the error list if there are errors after :SyntasticCheck
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-"Disable syntax check on save/open
-let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
+autocmd CursorHold * silent call CocActionAsync('highlight')
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 "--------------------------------------------------
 
@@ -142,32 +114,20 @@ function! DeleteHiddenBuffers()
         silent execute 'bwipeout!' buf
     endfor
 endfunction
-
 command! DeleteHiddenBuffers call DeleteHiddenBuffers()
-command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
-
 set noswapfile
-set encoding=utf-8   
-colorscheme atom "Linux is somehow case sensitive here
+set encoding=utf-8
+colorscheme scheakur
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
 
-"Completion
-set completeopt+=menuone "Show menu on one item for type sigs
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option({
-\ 'auto_complete_delay': 200,
-\ 'smart_case': v:true,
-\ 'max_list': 20,
-\ })
-
 "Sessions
 let g:session_autosave = 'yes'
-let g:session_autoload = 'no'
+let g:session_autoload = 'yes'
 
 "Tags
 "Use ctags -R --extras=f . to include file name in tags
