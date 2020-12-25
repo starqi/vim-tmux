@@ -39,33 +39,33 @@ endif
 
 call plug#begin(b:base . '/plugged')
 
-Plug 'xolox/vim-misc' "This guy's personal libraries
-Plug 'xolox/vim-session' "Session management
+Plug 'xolox/vim-misc' 
+Plug 'xolox/vim-session' 
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'scrooloose/syntastic' "Lint
-Plug 'scrooloose/nerdtree' "File browser
-Plug 'Lokaltog/vim-easymotion' "Jump to letters
-Plug 'vim-scripts/YankRing.vim' "Loop through copy paste history
-Plug 'bling/vim-airline' "Pretty status bar
+Plug 'scrooloose/syntastic' 
+Plug 'scrooloose/nerdtree' 
+Plug 'Lokaltog/vim-easymotion' 
+Plug 'vim-scripts/YankRing.vim' 
+Plug 'bling/vim-airline' 
 Plug 'vim-airline/vim-airline-themes'
-Plug 'kshenoy/vim-signature' "Mark management
-Plug 'vim-scripts/BufOnly.vim' "When too many buffers open
-Plug 'ctrlpvim/ctrlp.vim' "Buffers, MRU, fuzzy search 
-Plug 'tpope/vim-fugitive' "Git helper
-Plug 'majutsushi/tagbar' "Ctags single file preview
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' } "Completion
-Plug 'ludovicchabant/vim-gutentags' "Tag regen
-
-"Languages
+Plug 'kshenoy/vim-signature' 
+Plug 'vim-scripts/BufOnly.vim' 
+Plug 'ctrlpvim/ctrlp.vim' 
+Plug 'tpope/vim-fugitive' 
+Plug 'majutsushi/tagbar' 
+Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' } 
+Plug 'ludovicchabant/vim-gutentags' 
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': b:languageClientInstallDo
     \ }
-Plug 'HerringtonDarkholme/yats.vim' "Basic Typescript
-Plug 'pangloss/vim-javascript' "Basic
-Plug 'mxw/vim-jsx' "Basic
-Plug 'neovimhaskell/haskell-vim' "Basic
-Plug 'udalov/kotlin-vim' "Basic
+
+"Basic language support
+Plug 'HerringtonDarkholme/yats.vim' 
+Plug 'pangloss/vim-javascript' 
+Plug 'mxw/vim-jsx' 
+Plug 'neovimhaskell/haskell-vim' 
+Plug 'udalov/kotlin-vim' 
 
 call plug#end()
 
@@ -80,15 +80,13 @@ let mapleader = ','
 "--------------------------------------------------
 
 "JS - Need <eslint>
-"TS - Need <typescript/tsserver, tslint, javascript-typescript-langserver (NPM global)>
-
-"******************** CUSTOM ACTION REQUIRED ********************
+"TS - Need <typescript/tsserver, tslint, (whichever lang server)>
 
 let b:tsLangServer = []
 call add(b:tsLangServer, 'C:\Users\starq\AppData\Roaming\npm\javascript-typescript-stdio.cmd')
 
 let b:goLangServer = []
-call add(b:goLangServer, 'C:\Users\starq\go\bin\go-langserver')
+call add(b:goLangServer, 'gopls.exe')
 
 let g:LanguageClient_serverCommands = {
     \ 'typescriptreact': b:tsLangServer,
@@ -96,17 +94,18 @@ let g:LanguageClient_serverCommands = {
     \ 'typescript': b:tsLangServer,
     \ 'go': b:goLangServer
     \ }
+"let g:LanguageClient_loggingFile = 'C:\Users\starq\OneDrive\Desktop\lc-logs.txt'
 
-"****************************************************************
 au FileType typescript,typescriptreact,typescript.tsx setlocal signcolumn=yes
 
 "Stop using fzf
 let g:LanguageClient_selectionUI = 'location-list'
 let g:LanguageClient_fzfContextMenu = '0'
+let g:LanguageClient_hoverPreview = 'Always'
 
 nnoremap <leader>- :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>= :call LanguageClient#textDocument_definition()<CR>
-"See full list of options
+"TODO Implementation vs definition & different lang servers...
+nnoremap <leader>= :call LanguageClient#textDocument_implementation()<CR>
 nnoremap <leader>\ :call LanguageClient_contextMenu()<CR>
 nnoremap <leader>9 :call LanguageClient#explainErrorAtPoint()<CR>
 
@@ -126,6 +125,12 @@ function! LintFix()
 endfunction
 au FileType typescript command! LintFix call LintFix()
 
+"Pop up the error list if there are errors after :SyntasticCheck
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+"Disable syntax check on save/open
+let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
+
 "--------------------------------------------------
 
 function! DeleteHiddenBuffers()
@@ -139,11 +144,10 @@ function! DeleteHiddenBuffers()
 endfunction
 
 command! DeleteHiddenBuffers call DeleteHiddenBuffers()
+command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
-
-command! PlugCleanUpdateRemote PlugClean | UpdateRemotePlugins
 
 set noswapfile
 set encoding=utf-8   
@@ -151,14 +155,24 @@ colorscheme atom "Linux is somehow case sensitive here
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
+
+"Completion
 set completeopt+=menuone "Show menu on one item for type sigs
 let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option({
+\ 'auto_complete_delay': 200,
+\ 'smart_case': v:true,
+\ 'max_list': 20,
+\ })
 
+"Sessions
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
 
+"Tags
+"Use ctags -R --extras=f . to include file name in tags
 nnoremap <F12> :TagbarToggle<CR>
-let g:gutentags_enabled = 0 "TODO Enable when .notags/roots set up
+let g:gutentags_enabled = 0 "Enable only when .notags/roots set up
 
 "Close quickfix, location, preview windows
 nnoremap <leader><leader>c :cclose<CR>
@@ -166,12 +180,6 @@ nnoremap <leader><leader>l :lclose<CR>
 nnoremap <leader><leader>p :pclose<CR>
 nnoremap <leader><space>c :copen<CR>
 nnoremap <leader><space>l :lopen<CR>
-
-"Pop up the error list if there are errors after :SyntasticCheck
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-"Disable syntax check on save/open
-let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": [], "passive_filetypes": []}
 
 " Move through error list and tags
 nnoremap [l :lprev<CR>
@@ -198,7 +206,6 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
-"Use ctags -R --extras=f . to include file name in tags
 "Deal with large repos using CWD, not 'ra'
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_map = '<leader>0' "Clear default keys
@@ -258,9 +265,6 @@ vnoremap <leader>c :s/\([,(]\\|.\()\)\@=\)\ \?/\1\r/g<CR>v%=
 command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
 command! -nargs=1 Find ExtCmd ag --ignore node_modules --ignore dist <args>
 command! -nargs=1 FindFile ExtCmd ag -g --ignore node_modules --ignore dist <args>
-
-"Vim Wiki
-let g:vimwiki_folding = 'expr'
 
 set previewheight=12
 filetype plugin indent on "Auto react to file type changes
