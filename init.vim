@@ -66,10 +66,17 @@ endif
 let mapleader = ','
 
 "--------------------------------------------------
-"Coc, plugins are configured separately
+"Coc
 "--------------------------------------------------
 
-"TODO Currently just some of the default suggestions
+let g:coc_global_extensions = [
+            \ 'coc-jedi', 
+            \ 'coc-tsserver',
+            \ 'coc-rls',
+            \ 'coc-json'
+            \ ]
+
+"Currently some of the default suggestions
 
 set signcolumn=yes
 set cmdheight=2
@@ -102,6 +109,8 @@ endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+
+inoremap <expr> <Tab> coc#refresh()
 
 "--------------------------------------------------
 
