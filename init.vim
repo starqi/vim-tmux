@@ -56,6 +56,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx' 
 Plug 'neovimhaskell/haskell-vim' 
 Plug 'udalov/kotlin-vim' 
+Plug 'ekalinin/Dockerfile.vim'
 
 call plug#end()
 
@@ -87,7 +88,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next);
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>f <Plug>(coc-format-selected)
@@ -109,8 +110,6 @@ endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
-
-inoremap <expr> <Tab> coc#refresh()
 
 "--------------------------------------------------
 
@@ -207,6 +206,7 @@ nnoremap <leader>1 :NERDTreeFocus<CR>
 nnoremap <leader>2 :NERDTreeToggle<CR>
 "Set each tab to its own workspace
 nnoremap <leader>3 :tcd %:p:h<CR>
+nnoremap <leader><leader>3 :cd %:p:h<CR>
 command! GlobalCD cd %:p:h
 command! CopyPath let @+ = expand('%:p')
 command! EchoPath echo expand('%:p')
