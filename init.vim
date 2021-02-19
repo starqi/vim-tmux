@@ -248,5 +248,6 @@ set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
 set foldmethod=indent foldlevel=99 " Don't collapse on start
+au FileType * setlocal fileformat=unix
 au FileType * setlocal fo-=cro "Stop comment formatting
 au FileType qf setlocal wrap "Wrap errors in quick fix window
