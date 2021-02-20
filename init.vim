@@ -77,7 +77,7 @@ let g:coc_global_extensions = [
             \ 'coc-json'
             \ ]
 
-"Currently, copy/pasted the default suggestions
+"Mostly copy/pasted default suggestions
 
 set signcolumn=yes
 set cmdheight=2
@@ -87,8 +87,10 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [w <Plug>(coc-diagnostic-prev)
+nmap <silent> ]w <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(coc-diagnostic-prev-error)
+nmap <silent> ]g <Plug>(coc-diagnostic-next-error)
 nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>f <Plug>(coc-format-selected)
@@ -109,7 +111,7 @@ function! s:show_documentation()
 endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OrgImportsCoc :call CocAction('runCommand', 'editor.action.organizeImport')
 
 "--------------------------------------------------
 
@@ -128,7 +130,7 @@ command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 set guicursor=
 set noswapfile
 set encoding=utf-8
-colorscheme scheakur
+colorscheme meta5
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 let g:yankring_history_file = '.my_yankring_history_file'
