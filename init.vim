@@ -77,7 +77,7 @@ let g:coc_global_extensions = [
             \ 'coc-json'
             \ ]
 
-"Currently some of the default suggestions
+"Currently, copy/pasted the default suggestions
 
 set signcolumn=yes
 set cmdheight=2
@@ -239,15 +239,15 @@ set previewheight=12
 filetype plugin indent on "Auto react to file type changes
 syntax enable "Enable syntax colors
 set rnu nu "Relative line numbers for easy jump
-set hidden  "New files don't need to be saved to browse another file...
+set hidden "New files don't need to be saved to browse another file...
 set autoindent "No magic BS indent, use last line's indent
-set nowrap "No line wrap
+set nowrap
 set shortmess+=Ic "No intro, no completion message
 set hlsearch "Highlight search results
 set laststatus=2 "Display toolbar
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywhere is 4 spaces
 set backspace=indent,eol,start "Stop preventing backspace in certain places
-set foldmethod=indent foldlevel=99 " Don't collapse on start
-au FileType * setlocal fileformat=unix
+set foldmethod=indent foldlevel=99 "Don't collapse on start
+au BufRead * setlocal fileformat=unix
 au FileType * setlocal fo-=cro "Stop comment formatting
 au FileType qf setlocal wrap "Wrap errors in quick fix window
