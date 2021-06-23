@@ -162,6 +162,8 @@ nnoremap ]t :tnext<CR>
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
+"Terminal shenanigans
+tnoremap <S-Space> <Space>
 
 nnoremap <leader>g :noh<CR>
 nnoremap <leader>f :sign unplace *<CR>
