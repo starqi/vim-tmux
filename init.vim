@@ -164,6 +164,7 @@ nnoremap ]t :tnext<CR>
 tnoremap <Esc> <C-\><C-n>
 "Terminal shenanigans
 tnoremap <S-Space> <Space>
+tnoremap <C-BS> <BS>
 
 nnoremap <leader>g :noh<CR>
 nnoremap <leader>f :sign unplace *<CR>
