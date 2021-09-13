@@ -39,7 +39,6 @@ Plug 'xolox/vim-session'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'scrooloose/nerdtree' 
 Plug 'Lokaltog/vim-easymotion' 
-Plug 'vim-scripts/YankRing.vim' 
 Plug 'bling/vim-airline' 
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kshenoy/vim-signature' 
@@ -133,7 +132,6 @@ set encoding=utf-8
 colorscheme meta5
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
-let g:yankring_history_file = '.my_yankring_history_file'
 
 "Sessions
 let g:session_autosave = 'yes'
@@ -162,7 +160,7 @@ nnoremap ]t :tnext<CR>
 
 "Exiting terminal insert mode with ESC
 tnoremap <Esc> <C-\><C-n>
-"Terminal shenanigans
+"Fix terminal character shenanigans
 tnoremap <S-Space> <Space>
 tnoremap <C-BS> <BS>
 
@@ -256,7 +254,7 @@ set foldmethod=indent foldlevel=99 "Don't collapse on start
 
 augroup custom
     au!
-    au BufRead * setlocal fileformat=unix
+    "au BufRead * setlocal fileformat=unix
     au FileType * setlocal fo-=cro "Stop comment formatting
     au FileType qf setlocal wrap "Wrap errors in quick fix window
 augroup END
