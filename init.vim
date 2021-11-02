@@ -169,6 +169,7 @@ nnoremap <leader>f :sign unplace *<CR>
 nnoremap <leader>W :set wrap!<CR>
 
 "Tab workflow
+let g:airline_extensions=['tabline']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_buffers = 0
@@ -255,7 +256,7 @@ set nowritebackup
 
 augroup custom
     au!
-    "au BufRead * setlocal fileformat=unix
+    au FileType *.kt,*.java,*.c,*.h,*.ts,*.sql setlocal fileformat=unix
     au FileType * setlocal fo-=cro "Stop comment formatting
     au FileType qf setlocal wrap "Wrap errors in quick fix window
 augroup END
