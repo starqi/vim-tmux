@@ -129,7 +129,7 @@ command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 set guicursor=
 set noswapfile
 set encoding=utf-8
-colorscheme meta5
+colorscheme oceanic_material
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
 
@@ -163,6 +163,7 @@ tnoremap <Esc> <C-\><C-n>
 "Fix terminal character shenanigans
 tnoremap <S-Space> <Space>
 tnoremap <C-BS> <BS>
+tnoremap <C-CR> <CR>
 
 nnoremap <leader>g :noh<CR>
 nnoremap <leader>f :sign unplace *<CR>
