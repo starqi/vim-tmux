@@ -163,6 +163,7 @@ tnoremap <Esc> <C-\><C-n>
 "Fix terminal character shenanigans
 tnoremap <S-Space> <Space>
 tnoremap <C-BS> <BS>
+tnoremap <S-BS> <BS>
 tnoremap <C-CR> <CR>
 
 nnoremap <leader>g :noh<CR>
