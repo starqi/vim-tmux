@@ -255,10 +255,10 @@ set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywh
 set backspace=indent,eol,start "Stop preventing backspace in certain places
 set foldmethod=indent foldlevel=99 "Don't collapse on start
 set nowritebackup
+set fileformats=unix
 
 augroup custom
     au!
-    au FileType *.kt,*.java,*.c,*.h,*.ts,*.sql setlocal fileformat=unix
     au FileType * setlocal fo-=cro "Stop comment formatting
     au FileType qf setlocal wrap "Wrap errors in quick fix window
 augroup END
