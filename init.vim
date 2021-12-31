@@ -125,6 +125,12 @@ function! DeleteHiddenBuffers()
 endfunction
 command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 
+function! OpenSessionForce() 
+    :DeleteHiddenBuffers
+    :OpenSession!
+endfunction
+command! OpenSessionForce call OpenSessionForce()
+
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
 set noswapfile
