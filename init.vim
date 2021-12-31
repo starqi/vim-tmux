@@ -125,11 +125,15 @@ function! DeleteHiddenBuffers()
 endfunction
 command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 
-function! OpenSessionForce() 
-    :DeleteHiddenBuffers
-    :OpenSession!
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+"Requires auto-save to be off
+function! ForceSession()
+    :SaveSession
+    :bufdo bwipeout!
+    :OpenSession
 endfunction
-command! OpenSessionForce call OpenSessionForce()
+command! -bang ForceSession call ForceSession()
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
@@ -138,10 +142,6 @@ set encoding=utf-8
 colorscheme oceanic_material
 set bg=dark
 set clipboard+=unnamedplus "Copy all yanks to system clipboard
-
-"Sessions
-let g:session_autosave = 'yes'
-let g:session_autoload = 'yes'
 
 "Tags
 "Use ctags -R --extras=f . to include file name in tags
