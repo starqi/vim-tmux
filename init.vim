@@ -133,7 +133,13 @@ function! ForceSession()
     :bufdo bwipeout!
     :OpenSession
 endfunction
-command! -bang ForceSession call ForceSession()
+command! ForceSession call ForceSession()
+
+function! FixPluginLag()
+    :CtrlPClearAllCaches
+    :AirlineToggle
+endfunction
+command! FixPluginLag call FixPluginLag()
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
