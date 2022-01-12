@@ -193,9 +193,9 @@ let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
 
 "Deal with large repos using CWD, not 'ra'
-let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_working_path_mode = ''
 let g:ctrlp_map = '<leader>0' "Clear default keys
-let g:ctrlp_extensions = ['tag', 'changes'] "Search tags, change history
+let g:ctrlp_extensions = ['tag'] "Search tags, change history
 
 " Search only git repo files
 let b:ctrlp_lsfiles_command = 'cd %s && git ls-files -oc --exclude-standard'
