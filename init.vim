@@ -48,6 +48,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'majutsushi/tagbar' 
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jeetsukumaran/vim-indentwise'
 
 "Basic language support
 Plug 'HerringtonDarkholme/yats.vim' 
@@ -97,6 +98,8 @@ xmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>ac <Plug>(coc-codeaction)
 nmap <leader>lf <Plug>(coc-fix-current)
+
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 nnoremap K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
@@ -203,7 +206,7 @@ if executable('ag')
     set grepprg=ag\ --nocolor
     "https://github.com/ggreer/the_silver_searcher
     "Match file names only, not contents
-    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --ignore node_modulesLOL --ignore dist --filename-pattern ""'] 
+    let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command, 'ag %s --nogroup --nocolor --files-with-matches --ignore node_modules --ignore dist --filename-pattern ""'] 
 else
     "--exclude-standard especially for node_modules
     let g:ctrlp_user_command = ['.git', b:ctrlp_lsfiles_command]
@@ -267,7 +270,6 @@ set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround "Every tab everywh
 set backspace=indent,eol,start "Stop preventing backspace in certain places
 set foldmethod=indent foldlevel=99 "Don't collapse on start
 set nowritebackup
-set fileformats=unix
 
 augroup custom
     au!
