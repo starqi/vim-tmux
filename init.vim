@@ -186,7 +186,8 @@ nnoremap <leader>f :sign unplace *<CR>
 nnoremap <leader>W :set wrap!<CR>
 
 "Tab workflow
-let g:airline_extensions=['tabline']
+let g:airline_extensions=['tabline', 'ctrlp']
+let g:airline#extensions#ctrlp#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_buffers = 0

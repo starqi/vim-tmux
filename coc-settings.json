@@ -1,2 +1,4 @@
 {
+    "typescript.suggest.includeCompletionsWithSnippetText": false,
+    "typescript.suggest.completeFunctionCalls": false
 }
