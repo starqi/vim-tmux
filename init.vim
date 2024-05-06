@@ -145,6 +145,8 @@ function! FixPluginLag()
 endfunction
 command! FixPluginLag call FixPluginLag()
 
+language en
+
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
 set noswapfile
