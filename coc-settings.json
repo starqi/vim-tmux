@@ -1,4 +1,5 @@
 {
     "typescript.suggest.includeCompletionsWithSnippetText": false,
-    "typescript.suggest.completeFunctionCalls": false
+    "typescript.suggest.completeFunctionCalls": false,
+    "clojure.keymaps.shortcut": "<leader>fl"
 }

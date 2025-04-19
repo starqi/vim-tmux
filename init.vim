@@ -10,6 +10,8 @@ if has("unix")
     let b:base=expand('~/.config/nvim')
     let b:autoload=b:base . '/autoload'
     let b:plug=b:autoload . '/plug.vim'
+
+    "let g:python3_host_prog = '/opt/python-venv1/bin/python3'
 else 
     let b:base=expand('$LOCALAPPDATA\nvim')
     let b:autoload=b:base . '\autoload'
@@ -50,6 +52,12 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jeetsukumaran/vim-indentwise'
 
+" AI
+Plug 'github/copilot.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'olimorris/codecompanion.nvim'
+
 "Basic language support
 Plug 'HerringtonDarkholme/yats.vim' 
 Plug 'pangloss/vim-javascript' 
@@ -60,6 +68,11 @@ Plug 'udalov/kotlin-vim'
 Plug 'ekalinin/Dockerfile.vim'
 
 call plug#end()
+
+lua << EOF
+  require("codecompanion").setup()
+EOF
+"
 
 if exists('b:auto_run_plug_install')
     :PlugInstall
@@ -75,7 +88,8 @@ let g:coc_global_extensions = [
             \ 'coc-jedi', 
             \ 'coc-tsserver',
             \ 'coc-rls',
-            \ 'coc-json'
+            \ 'coc-json',
+            \ 'coc-clojure'
             \ ]
 
 "Mostly copy/pasted default suggestions
@@ -118,6 +132,11 @@ command! -nargs=0 OrgImportsCoc :call CocAction('runCommand', 'editor.action.org
 
 "--------------------------------------------------
 
+let g:copilot_filetypes = {
+            \ 'text': v:false,
+            \ }
+imap <C-e> <Plug>(copilot-next)
+
 function! DeleteHiddenBuffers()
     let tpbl=[]
     "For 1 to # of tabs, temp var = v:val, add all window ids inside buffer to `tpbl`
@@ -144,8 +163,6 @@ function! FixPluginLag()
     :AirlineToggle
 endfunction
 command! FixPluginLag call FixPluginLag()
-
-language en
 
 "Fix terminal incompatibilities with blinking cursor
 set guicursor=
