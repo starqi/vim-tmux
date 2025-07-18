@@ -1,17 +1,35 @@
 
-" Neovim, Windows, Linux
-" Dependencies: curl, git, ag, depending on plugins... Python, Node, make
+" Neovim, Windows, Linux, Mac 
+" Dependencies: curl, git, ag, python, node, make (?)
+" (GuiFont! font isn't always available though)
+
+" Philosophy: TODO
+
+" TODO 
+" Read LUA
+" Avante, delete copilot
+
+" TODO 2
+" Native LSP > Coc
+    "use 'neovim/nvim-lspconfig'       -- Easy LSP setup
+    "use 'hrsh7th/nvim-cmp'            -- Completion engine
+    "use 'hrsh7th/cmp-nvim-lsp'        -- LSP source for cmp
+" fzf-lua > Find, FindFile, CtrlP
+" Remove all tag support, gutentags, tagbar, etc.
+" Treesitter > old highlight plugins
 
 "--------------------------------------------------
 "Auto install plugins
 "--------------------------------------------------
+
+" Also consider pyenv
+let g:python3_host_prog = '/opt/python-venv1/bin/python3'
 
 if has("unix") 
     let b:base=expand('~/.config/nvim')
     let b:autoload=b:base . '/autoload'
     let b:plug=b:autoload . '/plug.vim'
 
-    "let g:python3_host_prog = '/opt/python-venv1/bin/python3'
 else 
     let b:base=expand('$LOCALAPPDATA\nvim')
     let b:autoload=b:base . '\autoload'
@@ -53,10 +71,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jeetsukumaran/vim-indentwise'
 
 " AI
-Plug 'github/copilot.vim'
+"Plug 'github/copilot.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'olimorris/codecompanion.nvim'
 
 "Basic language support
 Plug 'HerringtonDarkholme/yats.vim' 
@@ -69,11 +86,6 @@ Plug 'ekalinin/Dockerfile.vim'
 
 call plug#end()
 
-lua << EOF
-  require("codecompanion").setup()
-EOF
-"
-
 if exists('b:auto_run_plug_install')
     :PlugInstall
 endif
@@ -85,7 +97,7 @@ let mapleader = ','
 "--------------------------------------------------
 
 let g:coc_global_extensions = [
-            \ 'coc-jedi', 
+            \ 'coc-pyright', 
             \ 'coc-tsserver',
             \ 'coc-rls',
             \ 'coc-json',
@@ -132,14 +144,14 @@ command! -nargs=0 OrgImportsCoc :call CocAction('runCommand', 'editor.action.org
 
 "--------------------------------------------------
 
-let g:copilot_filetypes = {
-            \ 'text': v:false,
-            \ }
-imap <C-e> <Plug>(copilot-next)
+"let g:copilot_filetypes = {
+"            \ 'text': v:false,
+"            \ }
+"imap <C-e> <Plug>(copilot-next)
 
 function! DeleteHiddenBuffers()
     let tpbl=[]
-    "For 1 to # of tabs, temp var = v:val, add all window ids inside buffer to `tpbl`
+    "For 1 to # of tabs, temp var = v:val, add all buffer ids inside tab to `tpbl`
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
     "Loop through 1 to max/last buffer number, deleting all those not in `tpbl` (visible)
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
@@ -184,7 +196,7 @@ nnoremap <leader><leader>p :pclose<CR>
 nnoremap <leader><space>c :copen<CR>
 nnoremap <leader><space>l :lopen<CR>
 
-" Move through error list and tags
+" Move through location list and tags
 nnoremap [l :lprev<CR>
 nnoremap ]l :lnext<CR>
 " [c is built-in for navigating diffs
