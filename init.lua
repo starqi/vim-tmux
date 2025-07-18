@@ -1,16 +1,18 @@
 -- Neovim Modern Configuration
--- Dependencies: git, ripgrep, fd-find (optional, not the normal find on mac!), for lang servers: python, node
+-- Dependencies: git, ripgrep, fd-find (optional, not the normal find on mac!),
+-- Lang servers: pyright, tsserver, lua_ls, rust_analyzer
 
+-- TODO -> ts_ls?
+-- TODO Fix find/fd-find on Mac
 -- TODO Get some comments back from old file
 -- TODO Why does leader c take forever
 -- TODO Marks not shown anymore
 -- TODO Mason?
--- TODO Git?
 -- TODO Any other missing commands?
 -- TODO noswapfile?
 -- TODO Themes?
--- TODO BufOnly?
 -- TODO nowritebackup
+-- TODO Tabline
 
 -- Initialize lazy.nvim (modern plugin manager)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -178,7 +180,8 @@ require('lazy').setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
             require('nvim-tree').setup()
-            vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
+            --TODO What is the point of 1?
+            --vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
             vim.keymap.set('n', '<leader>2', ':NvimTreeToggle<CR>')
             vim.keymap.set('n', '<leader>4', ':NvimTreeFindFile<CR>')
         end
@@ -195,6 +198,8 @@ require('lazy').setup({
 
     -- Theme
     { 'folke/tokyonight.nvim' },
+    { 'tpope/vim-fugitive' },
+    { 'schickling/vim-bufonly' },
 
     -- Motion
     {
@@ -247,7 +252,7 @@ vim.keymap.set('n', '<expr> <leader>s', ':tabn<CR>')
 vim.keymap.set('n', '<leader>q', ':tabp<CR>')
 vim.keymap.set('n', '<leader>e', ':tabn<CR>')
 vim.keymap.set('n', '<leader>d', ':bw!<CR>')
-vim.keymap.set('n', '<leader>c', ':tabc<CR>')
+vim.keymap.set('n', '<leader>c', ':tabc!<CR>')
 vim.keymap.set('n', '<leader>o', ':tabnew<CR>')
 vim.keymap.set('n', '<leader>O', ':tabp<CR>:tabnew<CR>')
 
