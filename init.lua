@@ -1,21 +1,19 @@
 -- Neovim Modern Configuration
--- Dependencies: git, ripgrep, fd-find (optional, not the normal find on mac!), fzf?
+-- Dependencies: git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
 -- Lang servers: pyright, ts_ls, lua_ls, rust_analyzer
 
 -- Reminders:
 -- gO
 
--- TODO YaroSpace/lua-console.nvim
 -- TODO Fix find/fd-find on Mac
 -- TODO Get some comments back from old file
 -- TODO Why does leader c take forever
 -- TODO Marks not shown anymore
+
+-- TODO YaroSpace/lua-console.nvim
+-- TODO Avante
 -- TODO Mason?
--- TODO Any other missing commands?
--- TODO noswapfile?
 -- TODO Themes?
--- TODO nowritebackup
--- TODO Tabline
 
 -- Initialize lazy.nvim (modern plugin manager)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -59,22 +57,24 @@ vim.opt.foldlevel = 99
 vim.opt.writebackup = false
 vim.opt.previewheight = 12
 
--- Plugin Specification
-require('lazy').setup({
-    -- Essential plugins
-    {
+-- Plugins
+require('lazy').setup {
+    { -- Syntax highlighting
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
-            require('nvim-treesitter.configs').setup({
-                ensure_installed = { 'lua', 'vim', 'python', 'javascript', 'typescript', 'rust' },
-                highlight = { enable = true },
-            })
+            require('nvim-treesitter.configs').setup {
+                ensure_installed = { 'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin' },
+                highlight = {
+                    enable = true,
+                    disable = { 'java', 'kotlin', 'rust' }
+                },
+            }
         end
     },
+    { -- Language servers
 
-    -- LSP Support
-    {
+        -- https://neovim.io/doc/user/lsp.html
         'neovim/nvim-lspconfig',
         dependencies = {
             'hrsh7th/nvim-cmp',
@@ -103,8 +103,7 @@ require('lazy').setup({
             vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = {
-                    Lua = {
-                        -- TODO Review
+                    Lua = { -- From AI / default settings
                         runtime = {
                             -- Tell the language server which version of Lua you're using
                             version = 'LuaJIT'
@@ -115,7 +114,16 @@ require('lazy').setup({
                         },
                         workspace = {
                             -- Make the server aware of Neovim runtime files
-                            library = vim.api.nvim_get_runtime_file("", true),
+
+                            -- Or pull in all of 'runtimepath'.
+                            -- NOTE: this is a lot slower and will cause issues when working on
+                            -- your own configuration.
+                            -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+                            --library = vim.api.nvim_get_runtime_file("", true),
+
+                            library = {
+                                vim.env.VIMRUNTIME
+                            },
                             checkThirdParty = false, -- Disable third party checking
                         },
                         telemetry = {
@@ -123,30 +131,39 @@ require('lazy').setup({
                         },
                     },
                 },
+
             })
 
             -- LSP Keybindings
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition)
-            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
             vim.keymap.set('n', 'gr', vim.lsp.buf.references)
             vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
             vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
-            vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
-            vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
-            vim.keymap.set('n', '[g', vim.diagnostic.goto_prev) -- TODO
-            vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
+            vim.keymap.set('v', '<leader>f', vim.lsp.buf.format)
+            vim.keymap.set('v', '<leader>a', vim.lsp.buf.code_action)
+            vim.keymap.set('n', '[g', function()
+                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
+            end)
+            vim.keymap.set('n', ']g', function()
+                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
+            end)
+            vim.keymap.set('n', '[w', function()
+                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.WARN})
+            end)
+            vim.keymap.set('n', ']w', function()
+                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.WARN})
+            end)
         end
     },
-
-    -- Completion
-    {
+    { -- Completion
         'hrsh7th/nvim-cmp',
         config = function()
             local cmp = require('cmp')
             local luasnip = require('luasnip')
 
-            cmp.setup({
+            cmp.setup {
                 snippet = {
                     expand = function(args)
                         luasnip.lsp_expand(args.body)
@@ -168,12 +185,10 @@ require('lazy').setup({
                     { name = 'buffer' },
                     { name = 'path' },
                 },
-            })
+            }
         end
     },
-
-    -- File Navigation and Search
-    {
+    { -- Searching
         'ibhagwan/fzf-lua',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
@@ -185,9 +200,7 @@ require('lazy').setup({
             vim.keymap.set('n', '<leader>fm', fzf.oldfiles)
         end
     },
-
-    -- File Explorer
-    {
+    { -- File system
         'nvim-tree/nvim-tree.lua',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
@@ -196,72 +209,85 @@ require('lazy').setup({
             --vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
             vim.keymap.set('n', '<leader>2', ':NvimTreeToggle<CR>')
             vim.keymap.set('n', '<leader>4', ':NvimTreeFindFile!<CR>')
-            --TODO
-            vim.keymap.del("n", "<C-k>")
+            --TODO Minor, can't jump windows
+            --vim.keymap.del("n", "<C-k>")
         end
     },
-
-    -- Status Line
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            require('lualine').setup()
+            require('lualine').setup {
+                options = {
+                    component_separators = { left = '', right = ' '},
+                },
+                sections = {
+                    lualine_a = { 'mode' },
+                    --lualine_b = { 'branch', 'diff', 'diagnostics' },
+                    lualine_b = { 'branch' },
+                    lualine_c = { 'filename' },
+                    --lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                    lualine_x = { 'encoding', 'filetype' },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' }
+                },
+                tabline = {
+                    lualine_a = { {'tabs', mode = 2, use_mode_colors = true} },
+                    lualine_b = {},
+                    lualine_c = {},
+                    lualine_x = {},
+                    lualine_y = {},
+                    lualine_z = {}
+                }
+            }
         end
     },
-
-    -- Theme
+    { 'tpope/vim-fugitive' }, -- Git
     { 'folke/tokyonight.nvim' },
-    { 'tpope/vim-fugitive' },
     { 'schickling/vim-bufonly' },
-
-    -- Motion
     {
-        'phaazon/hop.nvim',
+        'phaazon/hop.nvim', -- EasyMotion
         config = function()
             require('hop').setup()
             vim.keymap.set('n', 't', ':HopChar1<CR>')
         end
     },
-
-    -- Session Management
-    {
+    { -- Sessions
         'rmagatti/auto-session',
         config = function()
-            require('auto-session').setup({
+            require('auto-session').setup {
                 log_level = 'error',
                 auto_session_suppress_dirs = { '~/', '~/Projects', '~/Downloads' },
-            })
+            }
         end
     },
-})
+}
 
--- Theme Setup
 vim.cmd('colorscheme tokyonight')
 
--- Window Navigation
+-- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
 
--- Search
+-- Search and replace
 vim.keymap.set('v', '/', '"hy0/\\V<C-R>h<CR>')
 vim.keymap.set('v', '<C-r>', ':s/\\V<C-r>///gc<left><left><left>')
 vim.keymap.set('n', '<leader><C-r>', ':%s/\\V<C-r>///gc<left><left><left>')
 
--- Terminal Mappings
+-- Terminal
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 vim.keymap.set('t', '<S-Space>', '<Space>')
 vim.keymap.set('t', '<C-BS>', '<BS>')
 vim.keymap.set('t', '<S-BS>', '<BS>')
 vim.keymap.set('t', '<C-CR>', '<CR>')
 
--- Misc Mappings
+-- Misc
 vim.keymap.set('n', '<leader>g', ':noh<CR>')
 vim.keymap.set('n', '<leader>W', ':set wrap!<CR>')
 
--- Tab Management
+-- Tabs
 vim.keymap.set('n', '<expr> <leader>s', ':tabn<CR>')
 vim.keymap.set('n', '<leader>q', ':tabp<CR>')
 vim.keymap.set('n', '<leader>e', ':tabn<CR>')
@@ -270,14 +296,14 @@ vim.keymap.set('n', '<leader>c', ':tabc!<CR>')
 vim.keymap.set('n', '<leader>o', ':tabnew<CR>')
 vim.keymap.set('n', '<leader>O', ':tabp<CR>:tabnew<CR>')
 
--- Directory Navigation
+-- Change cwd, dirs
 vim.keymap.set('n', '<leader>3', ':tcd %:p:h<CR>')
 vim.keymap.set('n', '<leader><leader>3', ':cd %:p:h<CR>')
-
--- Commands
 vim.api.nvim_create_user_command('GlobalCD', 'cd %:p:h', {})
 vim.api.nvim_create_user_command('CopyPath', 'let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('EchoPath', 'echo expand("%:p")', {})
+
+-- Windows only
 vim.api.nvim_create_user_command('Te2', 'te "C:\\Program Files\\Git\\bin\\bash.exe"', {})
 
 -- Old stuff too annoying to convert
