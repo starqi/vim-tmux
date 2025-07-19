@@ -1,8 +1,11 @@
 -- Neovim Modern Configuration
--- Dependencies: git, ripgrep, fd-find (optional, not the normal find on mac!),
--- Lang servers: pyright, tsserver, lua_ls, rust_analyzer
+-- Dependencies: git, ripgrep, fd-find (optional, not the normal find on mac!), fzf?
+-- Lang servers: pyright, ts_ls, lua_ls, rust_analyzer
 
--- TODO -> ts_ls?
+-- Reminders:
+-- gO
+
+-- TODO YaroSpace/lua-console.nvim
 -- TODO Fix find/fd-find on Mac
 -- TODO Get some comments back from old file
 -- TODO Why does leader c take forever
@@ -82,18 +85,26 @@ require('lazy').setup({
             'saadparwaiz1/cmp_luasnip',
         },
         config = function()
-            local lspconfig = require('lspconfig')
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
             -- Setup language servers
-            lspconfig.pyright.setup({ capabilities = capabilities })
-            lspconfig.tsserver.setup({ capabilities = capabilities })
-            lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-            -- Add Lua LSP
-            lspconfig.lua_ls.setup({
+            -- Using Nvim 0.11+ vim.lsp.enable() syntax
+            -- TODO Read capabilities
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            
+            vim.lsp.enable('pyright')
+            vim.lsp.config('pyright', { capabilities = capabilities })
+            
+            vim.lsp.enable('ts_ls')
+            vim.lsp.config('ts_ls', { capabilities = capabilities })
+            
+            vim.lsp.enable('rust_analyzer')
+            vim.lsp.config('rust_analyzer', { capabilities = capabilities })
+            
+            vim.lsp.enable('lua_ls')
+            vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
+                        -- TODO Review
                         runtime = {
                             -- Tell the language server which version of Lua you're using
                             version = 'LuaJIT'
@@ -167,10 +178,11 @@ require('lazy').setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
             local fzf = require('fzf-lua')
-            vim.keymap.set('n', '<leader>0', fzf.files)
+            vim.keymap.set('n', '<leader>ff', fzf.files)
             vim.keymap.set('n', '<leader>fg', fzf.live_grep)
             vim.keymap.set('n', '<leader>fb', fzf.buffers)
             vim.keymap.set('n', '<leader>fh', fzf.help_tags)
+            vim.keymap.set('n', '<leader>fm', fzf.oldfiles)
         end
     },
 
@@ -183,7 +195,9 @@ require('lazy').setup({
             --TODO What is the point of 1?
             --vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
             vim.keymap.set('n', '<leader>2', ':NvimTreeToggle<CR>')
-            vim.keymap.set('n', '<leader>4', ':NvimTreeFindFile<CR>')
+            vim.keymap.set('n', '<leader>4', ':NvimTreeFindFile!<CR>')
+            --TODO
+            vim.keymap.del("n", "<C-k>")
         end
     },
 
@@ -264,6 +278,7 @@ vim.keymap.set('n', '<leader><leader>3', ':cd %:p:h<CR>')
 vim.api.nvim_create_user_command('GlobalCD', 'cd %:p:h', {})
 vim.api.nvim_create_user_command('CopyPath', 'let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('EchoPath', 'echo expand("%:p")', {})
+vim.api.nvim_create_user_command('Te2', 'te "C:\\Program Files\\Git\\bin\\bash.exe"', {})
 
 -- Old stuff too annoying to convert
 vim.cmd([[
