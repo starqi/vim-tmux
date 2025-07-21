@@ -1,5 +1,5 @@
 -- Neovim Modern Configuration
--- Dependencies: git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
+-- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
 -- Lang servers: pyright, ts_ls, lua_ls, rust_analyzer
 
 -- Reminders:
@@ -59,6 +59,10 @@ vim.opt.foldlevel = 99
 vim.opt.writebackup = false
 vim.opt.previewheight = 12
 
+--Removed hidden buffers and terminals, causing issues on Windows (???), and terminal reload never worked anyway
+--vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+
 -- Plugins
 require('lazy').setup {
     { -- Syntax highlighting
@@ -69,7 +73,7 @@ require('lazy').setup {
                 ensure_installed = { 'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin' },
                 highlight = {
                     enable = true,
-                    disable = { 'java', 'kotlin', 'rust' }
+                    disable = { 'rust' }
                 },
             }
         end
@@ -263,13 +267,14 @@ require('lazy').setup {
         config = function()
             require('auto-session').setup {
                 log_level = 'error',
-                auto_session_suppress_dirs = { '~/', '~/Projects', '~/Downloads' },
+                auto_restore = true,
+                auto_restore_last_session = true,
             }
         end
     },
 }
 
-vim.cmd('colorscheme tokyonight-day')
+vim.cmd('colorscheme tokyonight')
 
 -- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h')
