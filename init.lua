@@ -5,15 +5,17 @@
 -- Reminders:
 -- gO
 
+-- TODO Fix unused imports Python -> basedpyright?
+-- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
 -- TODO Get some comments back from old file
 -- TODO Why does leader c take forever
 -- TODO Marks not shown anymore
 
+-- TODO Indent plug
 -- TODO YaroSpace/lua-console.nvim
 -- TODO Avante
 -- TODO Mason?
--- TODO Themes?
 
 -- Initialize lazy.nvim (modern plugin manager)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -131,7 +133,6 @@ require('lazy').setup {
                         },
                     },
                 },
-
             })
 
             -- LSP Keybindings
@@ -142,7 +143,7 @@ require('lazy').setup {
             vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
             vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
             vim.keymap.set('v', '<leader>f', vim.lsp.buf.format)
-            vim.keymap.set('v', '<leader>a', vim.lsp.buf.code_action)
+            vim.keymap.set({'v', 'n'}, '<leader>a', vim.lsp.buf.code_action)
             vim.keymap.set('n', '[g', function()
                 vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
             end)
@@ -194,6 +195,7 @@ require('lazy').setup {
         config = function()
             local fzf = require('fzf-lua')
             vim.keymap.set('n', '<leader>ff', fzf.files)
+            vim.keymap.set('n', '<leader>0', fzf.files)
             vim.keymap.set('n', '<leader>fg', fzf.live_grep)
             vim.keymap.set('n', '<leader>fb', fzf.buffers)
             vim.keymap.set('n', '<leader>fh', fzf.help_tags)
@@ -220,6 +222,8 @@ require('lazy').setup {
             require('lualine').setup {
                 options = {
                     component_separators = { left = '', right = ' '},
+                    always_divide_middle = false,
+                    max_length = vim.o.columns
                 },
                 sections = {
                     lualine_a = { 'mode' },
@@ -232,7 +236,9 @@ require('lazy').setup {
                     lualine_z = { 'location' }
                 },
                 tabline = {
-                    lualine_a = { {'tabs', mode = 2, use_mode_colors = true} },
+                    lualine_a = {{
+                        'tabs', mode = 2, use_mode_colors = true
+                    }},
                     lualine_b = {},
                     lualine_c = {},
                     lualine_x = {},
@@ -263,7 +269,7 @@ require('lazy').setup {
     },
 }
 
-vim.cmd('colorscheme tokyonight')
+vim.cmd('colorscheme tokyonight-day')
 
 -- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h')
