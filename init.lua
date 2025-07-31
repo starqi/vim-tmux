@@ -6,6 +6,7 @@
 -- gO
 
 -- TODO Fix unused imports Python -> basedpyright?
+    -- TODO Format not working? Lua formatting works.
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
 -- TODO Get some comments back from old file
@@ -16,6 +17,8 @@
 -- TODO YaroSpace/lua-console.nvim
 -- TODO Avante
 -- TODO Mason?
+
+-- TODO Read: highlight groups
 
 -- Initialize lazy.nvim (modern plugin manager)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -65,6 +68,9 @@ vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localopt
 
 -- Plugins
 require('lazy').setup {
+    { 'folke/tokyonight.nvim' },
+    { 'olimorris/onedarkpro.nvim', priority = 1000, -- Ensure it loads first
+    },
     { -- Syntax highlighting
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
@@ -253,7 +259,6 @@ require('lazy').setup {
         end
     },
     { 'tpope/vim-fugitive' }, -- Git
-    { 'folke/tokyonight.nvim' },
     { 'schickling/vim-bufonly' },
     {
         'phaazon/hop.nvim', -- EasyMotion
@@ -267,12 +272,23 @@ require('lazy').setup {
         config = function()
             require('auto-session').setup {
                 log_level = 'error',
-                auto_restore = true,
-                auto_restore_last_session = true,
+                auto_restore = false,
+                --auto_restore_last_session = true,
             }
         end
     },
 }
+
+-- More LSP/diagnostics
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+})
+-- TODO vim.diagnostic.open_float() will do a popup
+vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float)
 
 vim.cmd('colorscheme tokyonight')
 
@@ -297,6 +313,8 @@ vim.keymap.set('t', '<C-CR>', '<CR>')
 -- Misc
 vim.keymap.set('n', '<leader>g', ':noh<CR>')
 vim.keymap.set('n', '<leader>W', ':set wrap!<CR>')
+vim.keymap.set('n', ']c', ':cnext<CR>')
+vim.keymap.set('n', '[c', ':cprev<CR>')
 
 -- Tabs
 vim.keymap.set('n', '<expr> <leader>s', ':tabn<CR>')

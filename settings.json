@@ -1,0 +1,32 @@
+{
+    "window.commandCenter": true,
+    "workbench.colorTheme": "Visual Studio Dark",
+    "git.openRepositoryInParentFolders": "never",
+    "javascript.updateImportsOnFileMove.enabled": "never",
+
+    // Vim settings
+    "vim.useSystemClipboard": true,
+    "vim.easymotion": true,
+    "vim.leader": ",",
+    "vim.easymotionCaseSensitive": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["t"],
+            "after": ["<leader>", "<leader>", "s"]
+        },
+        {
+        "before": ["<leader>", "<C-r>"],
+        "after": [":", "%", "s", "/", "<C-r>", "/", "/", "/", "g", "c", "<left>", "<left>", "<left>"],
+        "silent": true
+    }],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["/"],
+            "after": ["\"", "h", "y", "/", "<C-r>", "h", "<CR>"]
+        },
+        {
+            "before": ["<C-r>"],
+            "after": [":", "s", "/", "<C-r>", "/", "/", "/", "g", "c", "<left>", "<left>", "<left>"]
+        }
+    ]
+}
