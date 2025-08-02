@@ -3,6 +3,7 @@
     "workbench.colorTheme": "Visual Studio Dark",
     "git.openRepositoryInParentFolders": "never",
     "javascript.updateImportsOnFileMove.enabled": "never",
+    "editor.lineNumbers": "relative",
 
     // Vim settings
     "vim.useSystemClipboard": true,

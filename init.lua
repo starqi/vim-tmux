@@ -2,25 +2,23 @@
 -- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
 -- Lang servers: pyright, ts_ls, lua_ls, rust_analyzer
 
+
 -- Reminders:
 -- gO
 
--- TODO Fix unused imports Python -> basedpyright?
-    -- TODO Format not working? Lua formatting works.
+-- / TODO Fix unused imports Python -> basedpyright?
+    -- / TODO Format not working? Lua formatting works.
+
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
--- TODO Get some comments back from old file
--- TODO Why does leader c take forever
--- TODO Marks not shown anymore
 
--- TODO Indent plug
--- TODO YaroSpace/lua-console.nvim
--- TODO Avante
--- TODO Mason?
+-- Minor TODO
+-- YaroSpace/lua-console.nvim?
+-- Avante?
+-- Mason?
 
--- TODO Read: highlight groups
 
--- Initialize lazy.nvim (modern plugin manager)
+-- Initialize lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -63,11 +61,15 @@ vim.opt.writebackup = false
 vim.opt.previewheight = 12
 
 --Removed hidden buffers and terminals, causing issues on Windows (???), and terminal reload never worked anyway
---vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+--vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 -- Plugins
 require('lazy').setup {
+    { 'rafi/awesome-vim-colorschemes' },
+    { 'kshenoy/vim-signature' }, -- Mark management
+    { 'jeetsukumaran/vim-indentwise' }, -- Indent hoping
+    -- Colors
     { 'folke/tokyonight.nvim' },
     { 'olimorris/onedarkpro.nvim', priority = 1000, -- Ensure it loads first
     },
@@ -228,6 +230,7 @@ require('lazy').setup {
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
+        --enabled = false,
         config = function()
             require('lualine').setup {
                 options = {
@@ -247,7 +250,13 @@ require('lazy').setup {
                 },
                 tabline = {
                     lualine_a = {{
-                        'tabs', mode = 2, use_mode_colors = true
+                        'tabs', mode = 2, use_mode_colors = false,
+                        tabs_color = {
+                            -- This place is the reason why default colorscheme doesn't highlight active tab, TabLineSel active works...
+                            -- TODO Read more highlight groups and custom ones: lualine_a_inactive
+                            active = 'TabLineSel',
+                            inactive = 'lualine_a_inactive'
+                        },
                     }},
                     lualine_b = {},
                     lualine_c = {},
@@ -272,8 +281,9 @@ require('lazy').setup {
         config = function()
             require('auto-session').setup {
                 log_level = 'error',
-                auto_restore = false,
-                --auto_restore_last_session = true,
+                -- Restore sessions attached to a directory, but empty if some random directory
+                auto_restore = true,
+                auto_restore_last_session = false
             }
         end
     },
@@ -289,8 +299,6 @@ vim.diagnostic.config({
 })
 -- TODO vim.diagnostic.open_float() will do a popup
 vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float)
-
-vim.cmd('colorscheme tokyonight')
 
 -- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h')
@@ -332,11 +340,19 @@ vim.api.nvim_create_user_command('GlobalCD', 'cd %:p:h', {})
 vim.api.nvim_create_user_command('CopyPath', 'let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('EchoPath', 'echo expand("%:p")', {})
 
--- Windows only
-vim.api.nvim_create_user_command('Te2', 'te "C:\\Program Files\\Git\\bin\\bash.exe"', {})
+vim.api.nvim_create_user_command('Te2', 'te "C:\\Program Files\\Git\\bin\\bash.exe"', {}) -- Windows only
+vim.api.nvim_create_user_command('SR', 'SessionRestore', {})
 
--- Old stuff too annoying to convert
+-- Lua is not always better
 vim.cmd([[
+    colorscheme one-dark
+
+    cnoreabbrev sr SessionRestore
+    cnoreabbrev ss SessionSave
+
+    command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
+    command! -nargs=1 ExtVimCmd execute 'new | put=execute(''<args>'')'
+
     "TODO Applicable?
     augroup custom
         au!
