@@ -1,6 +1,6 @@
 -- Neovim Modern Configuration
 -- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
--- Lang servers: pyright, ts_ls, lua_ls, rust_analyzer
+-- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer
 
 
 -- Reminders:
@@ -104,8 +104,8 @@ require('lazy').setup {
             -- TODO Read capabilities
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             
-            vim.lsp.enable('pyright')
-            vim.lsp.config('pyright', { capabilities = capabilities })
+            vim.lsp.enable('basedpyright')
+            vim.lsp.config('basedpyright', { capabilities = capabilities })
             
             vim.lsp.enable('ts_ls')
             vim.lsp.config('ts_ls', { capabilities = capabilities })
