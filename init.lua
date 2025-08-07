@@ -156,6 +156,7 @@ require('lazy').setup {
             vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
             vim.keymap.set('v', '<leader>f', vim.lsp.buf.format)
             vim.keymap.set({'v', 'n'}, '<leader>a', vim.lsp.buf.code_action)
+            -- TODO (Minor) No need for cnext, lnext?
             vim.keymap.set('n', '[g', function()
                 vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
             end)
@@ -321,8 +322,6 @@ vim.keymap.set('t', '<C-CR>', '<CR>')
 -- Misc
 vim.keymap.set('n', '<leader>g', ':noh<CR>')
 vim.keymap.set('n', '<leader>W', ':set wrap!<CR>')
-vim.keymap.set('n', ']c', ':cnext<CR>')
-vim.keymap.set('n', '[c', ':cprev<CR>')
 
 -- Tabs
 vim.keymap.set('n', '<expr> <leader>s', ':tabn<CR>')
