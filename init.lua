@@ -213,6 +213,13 @@ require('lazy').setup {
             vim.keymap.set('n', '<leader>fb', fzf.buffers)
             vim.keymap.set('n', '<leader>fh', fzf.help_tags)
             vim.keymap.set('n', '<leader>fm', fzf.oldfiles)
+            fzf.setup {
+                winopts = {
+                    on_create = function() 
+                        vim.keymap.set("t", "<C-r>", [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true, buffer = true })
+                    end
+                }
+            }
         end
     },
     { -- File system
@@ -323,6 +330,25 @@ vim.keymap.set('t', '<C-CR>', '<CR>')
 vim.keymap.set('n', '<leader>g', ':noh<CR>')
 vim.keymap.set('n', '<leader>W', ':set wrap!<CR>')
 
+-- LSP/quickfix/location extra
+local function set_enter_esc_keys()
+    --FIXME
+    --vim.keymap.set('n', '<CR>', function()
+    --    vim.api.nvim_command('normal! <CR>')
+    --    vim.cmd('cclose')
+    --end, { buffer = true, silent = true })
+    vim.keymap.set('n', '<Esc>', '<cmd>cclose<CR>', { buffer = true, silent = true })
+end
+-- Reminder: copen, lopen, ]l, ]q
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    callback = set_enter_esc_keys
+})
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'loclist',
+    callback = set_enter_esc_keys
+})
+
 -- Tabs
 vim.keymap.set('n', '<expr> <leader>s', ':tabn<CR>')
 vim.keymap.set('n', '<leader>q', ':tabp<CR>')
@@ -352,10 +378,9 @@ vim.cmd([[
     command! -nargs=1 ExtCmd execute 'new | read !' . '<args>'
     command! -nargs=1 ExtVimCmd execute 'new | put=execute(''<args>'')'
 
-    "TODO Applicable?
     augroup custom
         au!
-        au FileType * setlocal fo-=cro "Stop comment formatting
+        au FileType * setlocal fo-=cro "Stop comment formatting, like typing // for me
         au FileType qf setlocal wrap "Wrap errors in quick fix window
     augroup END
 
