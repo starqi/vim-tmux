@@ -10,12 +10,13 @@
 
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
+-- TODO Opening a project at location X SUCKS
+-- TODO Fugitive auth
 
 -- Minor TODO
 -- YaroSpace/lua-console.nvim?
 -- Avante?
 -- Mason?
-
 
 -- Initialize lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -215,7 +216,8 @@ require('lazy').setup {
             vim.keymap.set('n', '<leader>fm', fzf.oldfiles)
             fzf.setup {
                 winopts = {
-                    on_create = function() 
+                    on_create = function()
+                        -- Ctrl \N -> terminal normal mode -> do " key press to paste register and a or i will enter insert mode for terminal
                         vim.keymap.set("t", "<C-r>", [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true, buffer = true })
                     end
                 }
