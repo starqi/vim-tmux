@@ -61,9 +61,9 @@ vim.opt.writebackup = false
 vim.opt.previewheight = 12
 vim.opt.ignorecase = true
 
---Removed hidden buffers and terminals, causing issues on Windows (???), and terminal reload never worked anyway
-vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
---vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+--Removed hidden buffers and terminals, causing issues on Windows only, and terminal reload never worked anyway
+--vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 -- Plugins
 require('lazy').setup {
@@ -228,7 +228,14 @@ require('lazy').setup {
         'nvim-tree/nvim-tree.lua',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            require('nvim-tree').setup()
+            require('nvim-tree').setup({
+                sync_root_with_cwd = true, -- Set to true to synchronize Nvim-tree's root with the CWD
+                update_focused_file = {
+                    enable = true,
+                    update_root = true,
+                    ignore_list = {},
+                }
+            })
             --TODO What is the point of 1?
             --vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
             vim.keymap.set('n', '<leader>2', ':NvimTreeToggle<CR>')
