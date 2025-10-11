@@ -2,7 +2,6 @@
 -- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
 -- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer
 
-
 -- Reminders:
 -- gO
 
@@ -158,13 +157,13 @@ require('lazy').setup {
             vim.keymap.set({'v', 'n'}, '<leader>a', vim.lsp.buf.code_action)
             -- TODO (Minor) No need for cnext, lnext?
             vim.keymap.set('n', '[g', function()
-                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
+                vim.diagnostic.jump({count = -1, severity = vim.diagnostic.severity.ERROR})
             end)
             vim.keymap.set('n', ']g', function()
                 vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.ERROR})
             end)
             vim.keymap.set('n', '[w', function()
-                vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.WARN})
+                vim.diagnostic.jump({count = -1, severity = vim.diagnostic.severity.WARN})
             end)
             vim.keymap.set('n', ']w', function()
                 vim.diagnostic.jump({count = 1, severity = vim.diagnostic.severity.WARN})
@@ -250,7 +249,7 @@ require('lazy').setup {
                     lualine_a = { 'mode' },
                     --lualine_b = { 'branch', 'diff', 'diagnostics' },
                     lualine_b = { 'branch' },
-                    lualine_c = { 'filename' },
+                    lualine_c = {{ 'filename', path = 1 }}, -- Relative path
                     --lualine_x = { 'encoding', 'fileformat', 'filetype' },
                     lualine_x = { 'encoding', 'filetype' },
                     lualine_y = { 'progress' },
@@ -306,7 +305,7 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 -- TODO vim.diagnostic.open_float() will do a popup
-vim.keymap.set('n', '<leader>K', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>k', vim.diagnostic.open_float)
 
 -- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h')
@@ -370,7 +369,7 @@ vim.api.nvim_create_user_command('SR', 'SessionRestore', {})
 
 -- Lua is not always better
 vim.cmd([[
-    colorscheme one-dark
+    colorscheme deep-space
 
     cnoreabbrev sr SessionRestore
     cnoreabbrev ss SessionSave
