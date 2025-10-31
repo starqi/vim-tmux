@@ -58,6 +58,7 @@ vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 vim.opt.writebackup = false
 vim.opt.previewheight = 12
+vim.opt.ignorecase = true
 
 --Removed hidden buffers and terminals, causing issues on Windows (???), and terminal reload never worked anyway
 vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
