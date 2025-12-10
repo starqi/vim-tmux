@@ -60,6 +60,9 @@ vim.opt.foldlevel = 99
 vim.opt.writebackup = false
 vim.opt.previewheight = 12
 vim.opt.ignorecase = true
+vim.opt.diffopt:append("iwhite")
+vim.opt.diffopt:append("iwhiteall")
+vim.opt.diffopt:append("iwhiteeol")
 
 --Removed hidden buffers and terminals, causing issues on Windows only, and terminal reload never worked anyway
 --vim.opt.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
@@ -229,10 +232,12 @@ require('lazy').setup {
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
             require('nvim-tree').setup({
-                sync_root_with_cwd = true, -- Set to true to synchronize Nvim-tree's root with the CWD
+                sync_root_with_cwd = false,
                 update_focused_file = {
-                    enable = true,
-                    update_root = true,
+                    -- Ensures current open file is highlighted in tree, but avoid all auto tree root changing confusion
+                    -- Use tcd manually
+                    enable = true, 
+                    update_root = false,
                     ignore_list = {},
                 }
             })
