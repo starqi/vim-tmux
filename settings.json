@@ -7,6 +7,11 @@
 
     // Vim settings
     "vim.useSystemClipboard": true,
+    "vim.handleKeys": {
+        "<C-p>": false,
+        "<C-b>": false,
+        "<C-j>": false
+    },
     "vim.easymotion": true,
     "vim.leader": ",",
     "vim.easymotionCaseSensitive": true,
