@@ -84,8 +84,7 @@ require('lazy').setup {
             require('nvim-treesitter.configs').setup {
                 ensure_installed = { 'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin' },
                 highlight = {
-                    enable = true,
-                    disable = { 'rust' }
+                    enable = true
                 },
             }
         end
@@ -217,6 +216,7 @@ require('lazy').setup {
             vim.keymap.set('n', '<leader>fb', fzf.buffers)
             vim.keymap.set('n', '<leader>fh', fzf.help_tags)
             vim.keymap.set('n', '<leader>fm', fzf.oldfiles)
+            vim.keymap.set('n', '<leader>ft', fzf.treesitter)
             fzf.setup {
                 winopts = {
                     on_create = function()
@@ -384,7 +384,7 @@ vim.api.nvim_create_user_command('SR', 'SessionRestore', {})
 
 -- Lua is not always better
 vim.cmd([[
-    colorscheme deep-space
+    colorscheme materialbox
 
     cnoreabbrev sr SessionRestore
     cnoreabbrev ss SessionSave
