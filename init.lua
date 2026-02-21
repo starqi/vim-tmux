@@ -71,7 +71,7 @@ vim.opt.sessionoptions="blank,curdir,folds,help,tabpages,winsize,winpos,localopt
 -- Plugins
 require('lazy').setup {
     { 'rafi/awesome-vim-colorschemes' },
-    { 'kshenoy/vim-signature' }, -- Mark management
+    { 'chentoast/marks.nvim', event = "VeryLazy", opts = {} }, -- Mark management
     { 'jeetsukumaran/vim-indentwise' }, -- Indent hoping
     -- Colors
     { 'folke/tokyonight.nvim' },
