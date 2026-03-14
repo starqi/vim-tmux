@@ -1,17 +1,13 @@
 -- Neovim Modern Configuration
 -- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
--- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer
+-- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer, clojure_lsp, elixirls
 
 -- Reminders:
 -- gO
 
--- / TODO Fix unused imports Python -> basedpyright?
-    -- / TODO Format not working? Lua formatting works.
-
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
 -- TODO Opening a project at location X SUCKS
--- TODO Fugitive auth
 
 -- Minor TODO
 -- YaroSpace/lua-console.nvim?
@@ -34,6 +30,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Core Vim Options
 vim.g.mapleader = ','
+vim.g.maplocalleader = '\\'
 vim.opt.signcolumn = 'yes'
 vim.opt.cmdheight = 2
 vim.opt.updatetime = 300
@@ -82,7 +79,9 @@ require('lazy').setup {
         build = ':TSUpdate',
         config = function()
             require('nvim-treesitter.configs').setup {
-                ensure_installed = { 'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin' },
+                ensure_installed = {
+                    'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir'
+                },
                 highlight = {
                     enable = true
                 },
@@ -149,6 +148,8 @@ require('lazy').setup {
                     },
                 },
             })
+            vim.lsp.enable('clojure_lsp')
+            vim.lsp.enable('elixirls')
 
             -- LSP Keybindings
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
@@ -304,11 +305,24 @@ require('lazy').setup {
             require('auto-session').setup {
                 log_level = 'error',
                 -- Restore sessions attached to a directory, but empty if some random directory
-                auto_restore = true,
+                auto_restore = false,
                 auto_restore_last_session = false
             }
         end
     },
+    {
+        "Olical/conjure",
+        ft = { "clojure", "fennel" }, -- File type
+        lazy = true,
+        init = function()
+            vim.g["conjure#mapping#doc_word"] = false
+
+            -- Set configuration options here
+            -- Uncomment this to get verbose logging to help diagnose internal Conjure issues
+            -- This is VERY helpful when reporting an issue with the project
+            -- vim.g["conjure#debug"] = true
+        end
+    }
 }
 
 -- More LSP/diagnostics
