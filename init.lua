@@ -224,30 +224,11 @@ require('lazy').setup {
                         -- Ctrl \N -> terminal normal mode -> do " key press to paste register and a or i will enter insert mode for terminal
                         vim.keymap.set("t", "<C-r>", [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true, buffer = true })
                     end
+                },
+                files = {
+                    no_ignore = false -- TODO Not sure how to toggle skipping git ignored files, Mac hotkeys or something
                 }
             }
-        end
-    },
-    { -- File system
-        'nvim-tree/nvim-tree.lua',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            require('nvim-tree').setup({
-                sync_root_with_cwd = false,
-                update_focused_file = {
-                    -- Ensures current open file is highlighted in tree, but avoid all auto tree root changing confusion
-                    -- Use tcd manually
-                    enable = true, 
-                    update_root = false,
-                    ignore_list = {},
-                }
-            })
-            --TODO What is the point of 1?
-            --vim.keymap.set('n', '<leader>1', ':NvimTreeFocus<CR>')
-            vim.keymap.set('n', '<leader>2', ':NvimTreeToggle<CR>')
-            vim.keymap.set('n', '<leader>4', ':NvimTreeFindFile!<CR>')
-            --TODO Minor, can't jump windows
-            --vim.keymap.del("n", "<C-k>")
         end
     },
     {
@@ -389,6 +370,7 @@ vim.keymap.set('n', '<leader>O', ':tabp<CR>:tabnew<CR>')
 -- Change cwd, dirs
 vim.keymap.set('n', '<leader>3', ':tcd %:p:h<CR>')
 vim.keymap.set('n', '<leader><leader>3', ':cd %:p:h<CR>')
+vim.keymap.set('n', '<leader>4', ':e %:p:h<CR>')
 vim.api.nvim_create_user_command('GlobalCD', 'cd %:p:h', {})
 vim.api.nvim_create_user_command('CopyPath', 'let @+ = expand("%:p")', {})
 vim.api.nvim_create_user_command('EchoPath', 'echo expand("%:p")', {})
@@ -398,7 +380,7 @@ vim.api.nvim_create_user_command('SR', 'SessionRestore', {})
 
 -- Lua is not always better
 vim.cmd([[
-    colorscheme materialbox
+    colorscheme habamax
 
     cnoreabbrev sr SessionRestore
     cnoreabbrev ss SessionSave
