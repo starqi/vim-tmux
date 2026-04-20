@@ -1,6 +1,5 @@
 ---
 description: A basic attempt at code review
-model: anthropic/claude-opus-4-7
 ---
 
 You are doing basic generic review for a diff you did not write.
