@@ -7,12 +7,12 @@
 
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
--- TODO Opening a project at location X SUCKS
 
--- Minor TODO
--- YaroSpace/lua-console.nvim?
--- Avante?
--- Mason?
+-- Future plugin considerations:
+---- YaroSpace/lua-console.nvim?
+---- Avante?
+---- Mason?
+---- https://github.com/sudo-tee/opencode.nvim
 
 -- Initialize lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -91,6 +91,7 @@ require('lazy').setup {
     { -- Language servers
 
         -- https://neovim.io/doc/user/lsp.html
+        -- See nvim-lspconfig Github instructions
         'neovim/nvim-lspconfig',
         dependencies = {
             'hrsh7th/nvim-cmp',
@@ -103,11 +104,22 @@ require('lazy').setup {
         config = function()
             -- Setup language servers
             -- Using Nvim 0.11+ vim.lsp.enable() syntax
-            -- TODO Read capabilities
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            local capabilities = require('cmp_nvim_lsp').default_capabilities() -- Link completion features with LSP features
             
             vim.lsp.enable('basedpyright')
-            vim.lsp.config('basedpyright', { capabilities = capabilities })
+            vim.lsp.config('basedpyright', {
+                capabilities = capabilities,
+                -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#basedpyright
+                -- https://docs.basedpyright.com/v1.26.0/configuration/language-server-settings/
+                settings = {
+                    basedpyright = {
+                        analysis = {
+                            autoSearchPaths = true,
+                            diagnosticMode = "openFilesOnly"
+                        }
+                    }
+                }
+            })
             
             vim.lsp.enable('ts_ls')
             vim.lsp.config('ts_ls', { capabilities = capabilities })
@@ -119,6 +131,7 @@ require('lazy').setup {
             vim.lsp.config('lua_ls', {
                 capabilities = capabilities,
                 settings = {
+                    -- SHAPE: https://luals.github.io/wiki/settings/#diagnosticsdisable
                     Lua = { -- From AI / default settings
                         runtime = {
                             -- Tell the language server which version of Lua you're using
@@ -126,7 +139,8 @@ require('lazy').setup {
                         },
                         diagnostics = {
                             -- Get the language server to recognize the `vim` global
-                            globals = { 'vim' }
+                            globals = { 'vim' },
+                            disable = { 'trailing-space' }
                         },
                         workspace = {
                             -- Make the server aware of Neovim runtime files
@@ -140,10 +154,10 @@ require('lazy').setup {
                             library = {
                                 vim.env.VIMRUNTIME
                             },
-                            checkThirdParty = false, -- Disable third party checking
+                            checkThirdParty = false -- Disable third party checking
                         },
                         telemetry = {
-                            enable = false,
+                            enable = false
                         },
                     },
                 },
@@ -314,7 +328,6 @@ vim.diagnostic.config({
     update_in_insert = false,
     severity_sort = true,
 })
--- TODO vim.diagnostic.open_float() will do a popup
 vim.keymap.set('n', '<leader>k', vim.diagnostic.open_float)
 
 -- Window navigation
@@ -411,7 +424,7 @@ vim.cmd([[
     nnoremap <expr> <leader>w ":tabn " . nr2char(getchar()) . "<CR>"
     "Move tab after _
     nnoremap <expr> <leader>s ":tabm " . nr2char(getchar()) . "<CR>"
-    "TODO What do other people do now?
 
+    "Split by ,
     vnoremap <leader>c :s/\([,(]\\|.\()\)\@=\)\ \?/\1\r/g<CR>v%=
 ]])
