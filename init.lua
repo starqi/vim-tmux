@@ -1,6 +1,6 @@
 -- Neovim Modern Configuration
 -- Dependencies: gcc (Treesitter), git, ripgrep, fzf, fd-find (optional, not the normal find on mac!)
--- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer, clojure_lsp, elixirls
+-- Lang servers: basedpyright, ts_ls, lua_ls, rust_analyzer, clojure_lsp, elixirls, gopls
 
 -- Reminders:
 -- gO
@@ -77,10 +77,11 @@ require('lazy').setup {
     { -- Syntax highlighting
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        lazy = false, -- "Lazy not supported"
         config = function()
             require('nvim-treesitter.configs').setup {
                 ensure_installed = {
-                    'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir'
+                    'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir', 'go'
                 },
                 highlight = {
                     enable = true
@@ -105,6 +106,8 @@ require('lazy').setup {
             -- Setup language servers
             -- Using Nvim 0.11+ vim.lsp.enable() syntax
             local capabilities = require('cmp_nvim_lsp').default_capabilities() -- Link completion features with LSP features
+
+            vim.lsp.enable('gopls')
             
             vim.lsp.enable('basedpyright')
             vim.lsp.config('basedpyright', {
