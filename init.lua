@@ -79,14 +79,20 @@ require('lazy').setup {
         build = ':TSUpdate',
         lazy = false, -- "Lazy not supported"
         config = function()
-            require('nvim-treesitter.configs').setup {
-                ensure_installed = {
-                    'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir', 'go'
-                },
-                highlight = {
-                    enable = true
-                },
+            require('nvim-treesitter').setup {}
+            require('nvim-treesitter').install {
+                'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir', 'go'
             }
+
+            -- OLD, pre breaking changes
+            --require('nvim-treesitter.configs').setup {
+            --    ensure_installed = {
+            --        'lua', 'vim', 'python', 'javascript', 'typescript', 'rust', 'java', 'markdown', 'kotlin', 'clojure', 'elixir', 'go'
+            --    },
+            --    highlight = {
+            --        enable = true
+            --    },
+            --}
         end
     },
     { -- Language servers
