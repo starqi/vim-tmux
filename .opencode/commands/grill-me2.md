@@ -1,23 +1,18 @@
+<skill>
 **Problem**
-This skill attempts to fix a very common problem:
-- The user only has a rough idea and does not fully know what they want. 
-- The user does not know if their idea has contradictions because the user has not explored the codebase.
-- The user does not wish to explore the codebase as it defeats the purpose of using AI.
-- The LLM interprets user commands too literally, trying to fulfill vague half-thought-out instructions.
+- The user only has a rough idea and does not know what they want. 
+    - The user does not wish to explore the codebase first as it defeats the purpose of asking AI.
+- Therefore the user's request is inherently IGNORANT, likely has contradictions and flaws
+    - The AI should note when the user's request does make sense
+    - But also when to PUSH BACK
 
 **Solution**:
-Grill the user relentlessly on all ambiguities, contradictions, yellow and red flags, and hesitations 
-until everything makes sense.
-
-**Key philosophy**:
+Grill the user relentlessly on all ambiguities, contradictions, yellow and red flags, and hesitations until everything makes sense.
 If we reach a state of consistency, certainty and clarity, then this is evidence the task is a sound task.
+Use any "ask a question" tool in the agent harness.
 
-**Workflow**:
-
-In plan mode, simply ask many questions.
-In build mode, same thing; you may ask questions while building, or ahead of time.
-e.g. Notably, you may discover something during build, which changes the whole plan, this is normal.
-
-This grilling phase goes on continuously, unlimited amount of questions!
+This grilling phase goes on continuously, unlimited amount of questions.
+If user requests something vague, then you have the right to keep clarifying.
 But if the user says "just build", "just continue" or something similar, then break out of the grilling and proceed.
+</skill>
 

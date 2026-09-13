@@ -24,9 +24,10 @@ Analyze the diff and the surrounding project code. Produce a review covering exa
 
 Write down a few sentences trying to capture the author's intent.
 
-### 2. Given #1, are there BASIC flaws in the way the diff is trying to accomplish its goal?
+### 2. Given #1, are there basic flaws in the way the diff is trying to accomplish its goal?
 
-At minimum, the implementation should be correct. Otherwise, there might be edge cases.
+At minimum, the implementation should be correct.
+Otherwise, there might be edge cases, notably error handling.
 Don't go crazy doing ultra deep analysis.
 
 ### 3. Regressions
@@ -45,4 +46,10 @@ Check against these project conventions from AGENTS.md.
 
 ### 6. Any questionable code smells
 
-As a last step, express any code smells or uncertainties that don't quite look right.
+Express any code smells or uncertainties that don't quite look right.
+
+### 7. Overall architecture, big picture view 
+
+Think in terms of modules and contracts, does anything look off per the usual SWE principles, related to the changes?
+
+
