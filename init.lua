@@ -7,6 +7,7 @@
 
 -- TODO Fix unused imports TS -> selection is wrong?
 -- TODO Fix find/fd-find on Mac
+-- TODO vim-prettier? MD tables?
 
 -- Future plugin considerations:
 ---- YaroSpace/lua-console.nvim?
@@ -402,7 +403,7 @@ vim.api.nvim_create_user_command('SR', 'SessionRestore', {})
 
 -- Lua is not always better
 vim.cmd([[
-    colorscheme habamax
+    colorscheme onedark_dark
 
     cnoreabbrev sr SessionRestore
     cnoreabbrev ss SessionSave
